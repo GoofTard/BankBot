@@ -31,11 +31,11 @@ def mapToTupleList(map):
 
 def getCommands(id, users, user, args):
     commands = {
-        "register": "Register a user",
-        "percentages": "Shows all percentages",
-        "totals": "Shows all totals",
-        "clear": "Clears funds",
-        "rides": "Redistribute funds",
+        "register": "register a user",
+        "percentages": "shows all percentages",
+        "totals": "shows all totals",
+        "clear": "clears funds",
+        "rides": "redistribute funds",
         "add": "Format: add 'amount', adds 'amount' to total funds",
         "add-cat": "Format: add-cat 'category' 'percentage', adds 'category' and allocate 'percentage'",
         "add-percent": "Format: add-percent 'category' 'percentage', adds 'percentage' to 'category'",
@@ -49,10 +49,10 @@ def getCommands(id, users, user, args):
     map.update({"Command": "Description"})
     sizes = getSizes(mapToTupleList(map))
     edge = "-" * (sizes[0] + sizes[1] + 5)
-    msg = getTitle(sizes[0], sizes[1], "Command", "Description")
+    msg = getTitle(sizes[0], sizes[1], "\"Command\"", "Description")
     items = commands.items()
     for item in items:
-        msg += formatRow(sizes[0], sizes[1], item[0], item[1])
+        msg += formatRow(sizes[0], sizes[1], f'"{item[0]}"', item[1])
     msg += f"{edge}\n"
     return msg
 

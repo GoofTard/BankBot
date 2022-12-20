@@ -57,7 +57,7 @@ async def handleCommands(message):
             await channel.send("You Are Not Registered!")
             return
 
-        await channel.send(f"```\n{commands[command](id, users, user, args[1:])}\n```")
+        await channel.send(f"```ml\n{commands[command](id, users, user, args[1:])}\n```")
 
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')
