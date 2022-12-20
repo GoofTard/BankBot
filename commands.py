@@ -393,11 +393,13 @@ def transferFunds(id, users, user, args):
         users.update_one(
             {"id": id},
             {
-                "$set": totals
+                "$set": {"data.totals": totals}
             }
         )
         msg += f"Transferred ₪{funds} From {fromCat} To {toCat}!\n"
     except:
         msg += f"Failed Transferring Funds!\n"
+
+    msg += printTotals(id, users, user, [])
 
     return msg
