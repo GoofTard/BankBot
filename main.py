@@ -25,7 +25,7 @@ client = discord.Client(intents=intents)
 
 commands = {
     "percentages": printPercentages,
-    "totals": printTotals,
+    "funds": printTotals,
     "add": addMoney,
     "clear": clearBank,
     "use": useMoney,
@@ -33,7 +33,7 @@ commands = {
     "rem-cat": removeCategory,
     "add-percent": addPercentage,
     "rem-percent": removePercentage,
-    "redis": redistribute,
+    "redistribute": redistribute,
     "help": getCommands,
     "register": registerUser,
     "transfer": transferFunds
