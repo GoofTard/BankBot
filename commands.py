@@ -81,7 +81,7 @@ def printPercentages(id, users, user, args):
     map = dict(percentages)
     map.update({"Category": "Percentage"})
 
-    sizes = getSizes(map)
+    sizes = getSizes(mapToTupleList(map))
 
     edge = "-" * (sizes[0] + sizes[1] + 5)
     msg += getTitle(sizes[0], sizes[1], "Category", "Percentage")
@@ -97,7 +97,7 @@ def printTotals(id, users, user, args):
     map = dict(totals)
     map.update({"Category": "Funds"})
 
-    sizes = getSizes(map)
+    sizes = getSizes(mapToTupleList(map))
     msg = getTitle(sizes[0], sizes[1], "Category", "Funds")
     for key in totals.keys():
         msg += formatRow(sizes[0], sizes[1], key, f"₪{totals[key]}")
