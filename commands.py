@@ -3,18 +3,10 @@ spaces = 4
 def formatRow(maxCatLen, maxPerLen, cat, val):
     return f"| {cat}{' ' * (maxCatLen - len(str(cat)))}| {val}{' ' * (maxPerLen - len(str(val)))}|\n"
 
-def formatRowQuad(sizes, values):
-    return f"| {values[0]}{' ' * (sizes[0] - len(values[0]))}| {values[1]}{' ' * (sizes[1] - len(values[1]))}| {values[2]}{' ' * (sizes[2] - len(values[2]))}| {values[3]}{' ' * (sizes[3] - len(values[3]))}"
-
 def getTitle(maxCatLen, maxPerLen, cat, val):
-    edge = "- " * (maxCatLen + maxPerLen + spaces + 1)
+    edge = "-" * (maxCatLen + maxPerLen + spaces + 1)
 
     return f"{edge}\n{formatRow(maxCatLen, maxPerLen, cat, val)}{edge}\n"
-
-def getTitleQuad(sizes, values):
-    edge = "-" * int((sizes[0] + sizes[1] + sizes[2] + sizes[3] + spaces*2 + 1) / 2)
-
-    return f"{edge}\n{formatRowQuad(sizes, values)}{edge}\n"
 
 def getSizes(vals):
     catsLength = []
@@ -37,59 +29,28 @@ def mapToTupleList(map):
 
     return tuples
 
-def tupleListToListTuple(list):
-    tuple = ([], [], [], [])
-    for (command, args, format, desc) in list:
-        tuple[0].append(command)
-        tuple[1].append(args)
-        tuple[2].append(format)
-        tuple[3].append(desc)
-    return tuple
-
-def calcSizes(listTuple):
-    commands = []
-    args = []
-    formats = []
-    descs = []
-
-    for command in listTuple[0]:
-        commands.append(len(command))
-    for arg in listTuple[1]:
-        args.append(len(arg))
-    for format in listTuple[2]:
-        formats.append(len(format))
-    for desc in listTuple[3]:
-        descs.append(len(desc))
-
-    return (max(commands) + spaces, max(args) + spaces, max(formats) + spaces, max(descs) + spaces)
-
 def getCommands(id, users, user, args):
-    commands = [
-        ("clear", "", "Format: clear", "Clears User's Funds"),
-        ("percentages", "", "Format: percentages", "Shows Each Category's Allocated Percentages"),
-        ("redistribute", "", "Format: redistribute", "Redistributes The Funds By Percentages"),
-        ("register", "", "Format: register", "Registers The User"),
-        ("totals", "", "Format: totals", "Shows Each Category's Allocated Funds"),
-        ("add", "<amount>", "Format: add <amount>", "Adds <amount> To The Funds And Distributes It"),
-        ("rem-cat", "<category>", "Format: rem-cat <category>", "Removes <category> From The Categories"),
-        ("add-cat", "<category> <percentage>", "Format: add-cat <category> <percentage>", "Adds <category> And Allocate <percentage> To It"),
-        ("add-percent", "<category> <percentage>", "Format: add-percent <category> <percentage>", "Adds <percentage> To <category>"),
-        ("rem-percent", "<category> <percentage>", "Format: rem-percent <category> <percentage>", "Removes <percentage> From <category>"),
-        ("use", "<category> <amount>", "Format: use <category> <amount>", "Uses <amount> From <category>"),
-        ("transfer", "<from> <to> <amount>", "Format: transfer <from> <to> <amount>", "Transfers <amount> to <to> from <from>")
-    ]
-    commands = tupleListToListTuple(commands)
-    tupleList = tuple(commands)
-    tupleList[0].append("Commands")
-    tupleList[1].append("Arguments")
-    tupleList[2].append("Format")
-    tupleList[3].append("Description")
-    sizes = calcSizes(tupleList)
+    commands = {
+        "clear": "Clears User's Funds",
+        "percentages": "Shows Each Category's Allocated Percentages",
+        "redistribute": "Redistributes The Funds By Percentages",
+        "register": "Registers The User",
+        "funds": "Shows Each Category's Allocated Funds",
+        "add <amount>": "Adds <amount> To The Funds And Distributes It",
+        "rem-cat <category>": "Removes <category> From The Categories",
+        "add-cat <category> <percentage>": "Adds <category> And Allocates <percentage> To It",
+        "add-percent <category> <percentage>": "Adds <percentage> To <category>",
+        "rem-percent <category> <percentage>": "Removes <percentage> From <category>",
+        "use <category> <amount>": "Uses <amount> From <category>",
+        "transfer <from> <to> <amount>": "Transfers <amount> to <to> from <from>"
+    }
 
-    edge = "-" * (sizes[0] + sizes[1] + sizes[2] + sizes[3] + spaces*2 + 1)
-    msg = getTitleQuad(sizes, ("Commands", "Arguments", "Format", "Description"))
-    for index in range(len(commands[0])):
-        msg += formatRowQuad(sizes, (commands[0][index], commands[1][index], commands[2][index], commands[3][index]))
+    sizes = getSizes(mapToTupleList(commands))
+
+    edge = "-" * (sizes[0] + sizes[1] + spaces + 1)
+    msg = getTitle(sizes[0], sizes[1], "Command Format", "Description")
+    for key in commands.keys():
+        msg += formatRow(sizes[0], sizes[1], key, f"{commands[key]}")
     msg += f"{edge}\n"
 
     return msg
@@ -121,7 +82,7 @@ def printPercentages(id, users, user, args):
 
     sizes = getSizes(mapToTupleList(map))
 
-    edge = "-" * (sizes[0] + sizes[1] + 5)
+    edge = "-" * (sizes[0] + sizes[1] + spaces + 1)
     msg += getTitle(sizes[0], sizes[1], "Category", "Percentage")
     for key in percentages.keys():
         msg += formatRow(sizes[0], sizes[1], key, f"{percentages[key]}%")
