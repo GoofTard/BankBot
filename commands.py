@@ -91,7 +91,7 @@ def getCommands(id, users, user, args):
     for index in range(len(commands[0])):
         msg += formatRowQuad(sizes, (commands[0][index], commands[1][index], commands[2][index], commands[3][index]))
     msg += f"{edge}\n"
-
+    print(len(msg))
     return msg
 
 def getWarning(percentages):
