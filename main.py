@@ -1,5 +1,6 @@
 import discord
 import pymongo
+import os
 from commands import *
 from datetime import datetime
 
@@ -7,8 +8,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 try:
-    dbClient = pymongo.MongoClient(
-        "mongodb://admin:admin@129.159.130.195:1028/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1")
+    dbClient = pymongo.MongoClient(os.environ.get('MONGO_KEY'))
     if not 'admin' in dbClient.list_database_names():
         raise Exception("DB Does'nt Esists")
 
@@ -73,4 +73,4 @@ async def on_message(message):
     await handleCommands(message)
 
 
-client.run("MTA1MzY3Njg4NTY3MTk0MDE4OA.GDrrzO.hA_4cqx1upyeODe1eTHmev0RIJnLD2-Tk9XZlc")
+client.run(os.environ.get('BOT_KEY'))
