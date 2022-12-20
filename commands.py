@@ -58,6 +58,7 @@ async def printPercentages(id, users, user, channel, args):
     msg = "```\n"
     msg += f"{edge}\n"
     msg += formatRow(categorySize, valuesSize, "Category", "Percentage")
+    msg += f"{edge}\n"
     for key in percentages.keys():
         msg += formatRow(categorySize, valuesSize, key, f"{percentages[key]}%")
     msg += f"{edge}\n"
@@ -83,6 +84,7 @@ async def printTotals(id, users, user, channel, args):
     msg = "```\n"
     msg += f"{edge}\n"
     msg += formatRow(categorySize, valuesSize, "Category", "Funds")
+    msg += f"{edge}\n"
     for key in totals.keys():
         msg += formatRow(categorySize, valuesSize, key, f"₪{totals[key]}")
     msg += f"{edge}\n"
