@@ -41,8 +41,8 @@ def getCommands(id, users, user, args):
         "add-cat <category> <percentage>": "Adds <category> And Allocates <percentage> To It",
         "add-percent <category> <percentage>": "Adds <percentage> To <category>",
         "rem-percent <category> <percentage>": "Removes <percentage> From <category>",
-        "use <category> <amount>": "Uses <amount> From <category>",
-        "transfer <from> <to> <amount>": "Transfers <amount> to <to> from <from>"
+        "transfer <from> <to> <amount>": "Transfers <amount> to <to> from <from>",
+        "use <category> <amount>": "Uses <amount> From <category>"
     }
 
     sizes = getSizes(mapToTupleList(commands))
