@@ -34,7 +34,6 @@ commands = {
     "add-percent": addPercentage,
     "rem-percent": removePercentage,
     "redistribute": redistribute,
-    "help": getCommands,
     "register": registerUser,
     "transfer": transferFunds
 }
@@ -50,14 +49,18 @@ async def handleCommands(message):
         args = message.split(" ")
         command = args[0]
 
-        if not command in commands:
-            return
+
 
         if (command != "register") and (user is None):
             await channel.send("You Are Not Registered!")
             return
 
-        await channel.send(f"```\n{commands[command](id, users, user, args[1:])}\n```")
+        if command == "help":
+            await channel.send(f"```ml\n{getCommands()}")
+        elif not command in commands:
+            return
+        else:
+            await channel.send(f"```\n{commands[command](id, users, user, args[1:])}\n```")
 
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')

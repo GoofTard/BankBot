@@ -29,20 +29,20 @@ def mapToTupleList(map):
 
     return tuples
 
-def getCommands(id, users, user, args):
+def getCommands():
     commands = {
         "clear": "Clears User's Funds",
         "percentages": "Shows Each Category's Allocated Percentages",
         "redistribute": "Redistributes The Funds By Percentages",
         "register": "Registers The User",
         "funds": "Shows Each Category's Allocated Funds",
-        "add <amount>": "Adds <amount> To The Funds And Distributes It",
-        "rem-cat <category>": "Removes <category> From The Categories",
-        "add-cat <category> <percentage>": "Adds <category> And Allocates <percentage> To It",
-        "add-percent <category> <percentage>": "Adds <percentage> To <category>",
-        "rem-percent <category> <percentage>": "Removes <percentage> From <category>",
-        "transfer <from> <to> <amount>": "Transfers <amount> to <to> from <from>",
-        "use <category> <amount>": "Uses <amount> From <category>"
+        "add 'amount'": "Adds 'amount' To The Funds And Distributes It",
+        "rem-cat 'category'": "Removes 'category' From The Categories",
+        "add-cat 'category' 'percentage'": "Adds 'category' And Allocates 'percentage' To It",
+        "add-percent 'category' 'percentage'": "Adds 'percentage' To 'category'",
+        "rem-percent 'category' 'percentage'": "Removes 'percentage' From 'category'",
+        "use 'category' 'amount'": "Uses 'amount' From 'category'",
+        "transfer 'from' 'to' 'amount'": "Transfers 'amount' to 'to' from 'from'"
     }
 
     sizes = getSizes(mapToTupleList(commands))
