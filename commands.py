@@ -86,7 +86,6 @@ def getCommands(id, users, user, args):
     tupleList[3].append("Description")
     sizes = calcSizes(tupleList)
 
-
     edge = "-" * (sizes[0] + sizes[1] + sizes[2] + sizes[3] + spaces*2 + 1)
     msg = getTitleQuad(sizes, ("Commands", "Arguments", "Format", "Description"))
     for index in range(len(commands[0])):
