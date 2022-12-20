@@ -40,7 +40,7 @@ commands = {
 
 
 async def handleCommands(message):
-    global user
+    global user, id
     try:
         channel = message.channel
         id = str(message.author.id)
@@ -58,10 +58,10 @@ async def handleCommands(message):
 
         await commands[command](id, users, user, channel, args[1:])
         with open('logs.txt', 'a') as f:
-            f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {user} - {message}\n')
+            f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')
     except IndexError:
         with open('logs.txt', 'a') as f:
-            f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {user} - {message}\n')
+            f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {id} - {message}\n')
 
 
 @client.event
