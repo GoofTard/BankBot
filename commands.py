@@ -36,13 +36,13 @@ def getCommands():
         "redistribute": "Redistributes The Funds By Percentages",
         "register": "Registers The User",
         "funds": "Shows Each Category's Allocated Funds",
-        "add 'amount'": "Adds 'amount' To The Funds And Distributes It",
-        "rem-cat 'category'": "Removes 'category' From The Categories",
-        "add-cat 'category' 'percentage'": "Adds 'category' And Allocates 'percentage' To It",
-        "add-percent 'category' 'percentage'": "Adds 'percentage' To 'category'",
-        "rem-percent 'category' 'percentage'": "Removes 'percentage' From 'category'",
-        "use 'category' 'amount'": "Uses 'amount' From 'category'",
-        "transfer 'from' 'to' 'amount'": "Transfers 'amount' to 'to' from 'from'"
+        "add [amount]": "Adds [amount] To The Funds And Distributes It",
+        "rem-cat [category]": "Removes [category] From The Categories",
+        "add-cat [category] [percentage]": "Adds [category] And Allocates [Percentage] To It",
+        "add-percent [category] [percentage]": "Adds [percentage] To [category]",
+        "rem-percent [category] [percentage]": "Removes [percentage] From [category]",
+        "use [category] [amount]": "Uses [amount] From [category]",
+        "transfer [from] [to] [amount]": "Transfers [amount] To [to] From [from]"
     }
 
     sizes = getSizes(mapToTupleList(commands))
