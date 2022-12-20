@@ -86,6 +86,8 @@ async def printTotals(id, users, user, channel, args):
     for key in totals.keys():
         msg += formatRow(categorySize, valuesSize, key, f"₪{totals[key]}")
     msg += f"{edge}\n"
+    msg += formatRow(categorySize, valuesSize, "Total", f"₪{user['data']['total']}")
+    msg += f"{edge}\n"
     msg += "```"
 
     await channel.send(msg)
