@@ -36,12 +36,12 @@ def getCommands(id, users, user, args):
         "totals": "Shows all totals",
         "clear": "Clears funds",
         "rides": "Redistribute funds",
-        "transfer": "Format: transfer 'from' 'to' 'amount', transfers 'amount' to 'to' from 'from'",
         "add": "Format: add 'amount', adds 'amount' to total funds",
-        "use": "Format: use 'category' 'amount', uses 'amount' from 'category'",
         "add-cat": "Format: add-cat 'category' 'percentage', adds 'category' and allocate 'percentage'",
-        "rem-cat": "Format: add-cat 'category', removes 'category'",
         "add-percent": "Format: add-percent 'category' 'percentage', adds 'percentage' to 'category'",
+        "transfer": "Format: transfer 'from' 'to' 'amount', transfers 'amount' to 'to' from 'from'",
+        "use": "Format: use 'category' 'amount', uses 'amount' from 'category'",
+        "rem-cat": "Format: rem-cat 'category', removes 'category'",
         "rem-percent": "Format: rem-percent 'category' 'percentage', removes 'percentage' from 'category'"
     }
 
