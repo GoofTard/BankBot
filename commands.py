@@ -55,11 +55,13 @@ async def printPercentages(id, users, user, channel, args):
     categorySize = max(categoryLengths) + spaces
     valuesSize = max(valueLengths) + spaces
     edge = "-" * (categorySize + valuesSize + 5)
-    msg = f"{edge}\n"
+    msg = "```\n"
+    msg += f"{edge}\n"
     msg += formatRow(categorySize, valuesSize, "Category", "Percentage")
     for key in percentages.keys():
         msg += formatRow(categorySize, valuesSize, key, percentages[key])
     msg += f"{edge}\n"
+    msg += "```"
 
     await channel.send(msg)
 
