@@ -31,17 +31,18 @@ def mapToTupleList(map):
 
 def getCommands(id, users, user, args):
     commands = {
+        "register": "Register a user",
         "percentages": "Shows all percentages",
         "totals": "Shows all totals",
-        "add": "Format: add 'amount', adds amount to total funds",
         "clear": "Clears funds",
-        "use": "Format: use 'category' 'amount', uses amount from category",
-        "add-cat": "Format: add-cat 'category' 'percentage', adds category and allocate percentage",
-        "rem-cat": "Format: add-cat 'category', removes category",
-        "add-percent": "Format: add-percent 'category' 'percentage', adds percentage to category",
-        "rem-percent": "Format: rem-percent 'category' 'percentage', removes percentage from category",
         "rides": "Redistribute funds",
-        "register": "Register a user"
+        "transfer": "Format: transfer 'from' 'to' 'amount', transfers 'amount' to 'to' from 'from'",
+        "add": "Format: add 'amount', adds 'amount' to total funds",
+        "use": "Format: use 'category' 'amount', uses 'amount' from 'category'",
+        "add-cat": "Format: add-cat 'category' 'percentage', adds 'category' and allocate 'percentage'",
+        "rem-cat": "Format: add-cat 'category', removes 'category'",
+        "add-percent": "Format: add-percent 'category' 'percentage', adds 'percentage' to 'category'",
+        "rem-percent": "Format: rem-percent 'category' 'percentage', removes 'percentage' from 'category'"
     }
 
     map = dict(commands)
@@ -365,5 +366,38 @@ def registerUser(id, users, user, args):
             msg += f"Failed Registering User!\n"
     else:
         msg = f"You Already Have A Bank"
+
+    return msg
+
+def transferFunds(id, users, user, args):
+    fromCat = args[0]
+    toCat = args[1]
+    funds = float(args[2])
+    totals = user["data"]["totals"]
+    msg = f"Transferring ₪{funds} From {fromCat} To {toCat}...\n"
+
+    if not fromCat in totals:
+        msg += "The 'From' Category Doesn't Exist!"
+        return msg
+
+    if not toCat in totals:
+        msg += "The 'To' Category Doesn't Exist!"
+        return msg
+
+    totals.update({
+        fromCat: totals[fromCat] - funds,
+        toCat: totals[toCat] + funds
+    })
+
+    try:
+        users.update_one(
+            {"id": id},
+            {
+                "$set": totals
+            }
+        )
+        msg += f"Transferred ₪{funds} From {fromCat} To {toCat}!\n"
+    except:
+        msg += f"Failed Transferring Funds!\n"
 
     return msg

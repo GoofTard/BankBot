@@ -35,7 +35,8 @@ commands = {
     "rem-percent": removePercentage,
     "redis": redistribute,
     "help": getCommands,
-    "register": registerUser
+    "register": registerUser,
+    "transfer": transferFunds
 }
 
 
