@@ -56,7 +56,7 @@ async def handleCommands(message):
             return
 
         if command == "help":
-            await channel.send(f"```ml\n{getCommands()}")
+            await channel.send(f"```ml\n{getCommands()}\n```")
         elif not command in commands:
             return
         else:
