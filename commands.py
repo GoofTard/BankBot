@@ -48,7 +48,7 @@ async def printPercentages(id, users, user, channel, args):
 
     for key in percentages.keys():
         categoryLengths.append(len(key))
-        valueLengths.append(len(percentages[key]))
+        valueLengths.append(len(str(percentages[key])))
 
     spaces = 4
 
