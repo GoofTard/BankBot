@@ -1,8 +1,11 @@
 import discord
 import pymongo
+from dotenv import load_dotenv
 import os
 from commands import *
 from datetime import datetime
+
+load_dotenv(".env")
 
 intents = discord.Intents.default()
 intents.message_content = True
