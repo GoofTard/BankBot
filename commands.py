@@ -1,4 +1,35 @@
-async def sendCommands(id, users, user, channel, args):
+def formatRow(maxCatLen, maxPerLen, cat, val):
+    return f"| {cat}{' ' * (maxCatLen - len(str(cat)))}| {val}{' ' * (maxPerLen - len(str(val)))}|\n"
+
+def getTitle(maxCatLen, maxPerLen, cat, val):
+    edge = "-" * (maxCatLen + maxPerLen + 5)
+
+    return f"{edge}\n{formatRow(maxCatLen, maxPerLen, cat, val)}\n{edge}\n"
+
+def getSizes(vals):
+    catsLength = []
+    valueLengths = []
+
+    for (cat, val) in vals:
+        catsLength.append(len(str(cat)))
+        valueLengths.append(len(str(val)))
+
+    spaces = 4
+
+    categorySize = max(catsLength) + spaces
+    valuesSize = max(valueLengths) + spaces
+
+    return (categorySize, valuesSize)
+
+def mapToTupleList(map):
+    tuples = []
+
+    for key in map.keys():
+        tuples.append((key, map[key]))
+
+    return tuples
+
+def getCommands(id, users, user, args):
     commands = {
         "percentages": "Shows all percentages",
         "totals": "Shows all totals",
@@ -12,91 +43,70 @@ async def sendCommands(id, users, user, channel, args):
         "rides": "Redistribute funds",
         "register": "Register a user"
     }
-    msg = ""
+
+    map = dict(commands)
+    map.update({"Command": "Description"})
+    sizes = getSizes(mapToTupleList(map))
+
+    msg = getTitle(sizes[0], sizes[1], "Command", "Description")
     items = commands.items()
 
     for item in items:
-        msg += f"{item[0]}: {item[1]}\n"
+        msg += formatRow(sizes[0], sizes[1], item[0], item[1])
 
-    await channel.send(msg)
+    return msg
 
-async def sendWarning(channel, percentages):
+def getWarning(percentages):
     totalPercent = 0
     for key in percentages:
         totalPercent += float(percentages[key])
 
     if totalPercent == 100:
-        return;
+        return ""
 
     msg = f"WARNING! You Have Allocated {totalPercent}% Of Your Funds!\n"
 
     if totalPercent > 100:
-        await channel.send(f"{msg}Please Remove A Category Or Allocate {totalPercent - 100}% Less From Somewhere!")
+        msg += f"{msg}Please Remove A Category Or Allocate {totalPercent - 100}% Less From Somewhere!\n"
     elif totalPercent < 100:
-        await channel.send(f"{msg}Please Add A Category Or Allocate {100 - totalPercent}% More To Somewhere!")
+        msg += f"{msg}Please Add A Category Or Allocate {100 - totalPercent}% More To Somewhere!\n"
 
-def formatRow(maxCatLen, maxPerLen, cat, per):
-    return f"| {cat}{' ' * (maxCatLen - len(str(cat)))}| {per}{' ' * (maxPerLen - len(str(per)))}|\n"
+    return msg
 
-async def printPercentages(id, users, user, channel, args):
+def printPercentages(id, users, user, args):
     percentages = user["data"]["percentages"]
 
-    await sendWarning(channel, percentages)
+    msg = getWarning(percentages)
 
-    categoryLengths = [len("Category")]
-    valueLengths = [len("Percentage")]
+    map = dict(percentages)
+    map.update({"Category": "Percentage"})
 
+    sizes = getSizes(map)
+
+    edge = "-" * (sizes[0] + sizes[1] + 5)
+    msg += getTitle(sizes[0], sizes[1], "Category", "Percentage")
     for key in percentages.keys():
-        categoryLengths.append(len(key))
-        valueLengths.append(len(str(percentages[key])))
-
-    spaces = 4
-
-    categorySize = max(categoryLengths) + spaces
-    valuesSize = max(valueLengths) + spaces
-    edge = "-" * (categorySize + valuesSize + 5)
-    msg = "```\n"
+        msg += formatRow(sizes[0], sizes[1], key, f"{percentages[key]}%")
     msg += f"{edge}\n"
-    msg += formatRow(categorySize, valuesSize, "Category", "Percentage")
-    msg += f"{edge}\n"
-    for key in percentages.keys():
-        msg += formatRow(categorySize, valuesSize, key, f"{percentages[key]}%")
-    msg += f"{edge}\n"
-    msg += "```"
 
-    await channel.send(msg)
+    return msg
 
-async def printTotals(id, users, user, channel, args):
+def printTotals(id, users, user, args):
     totals = user["data"]["totals"]
 
-    categoryLengths = [len("Category")]
-    valueLengths = [len("Percentage")]
+    map = dict(totals)
+    map.update({"Category": "Funds"})
 
+    sizes = getSizes(map)
+    msg = getTitle(sizes[0], sizes[1], "Category", "Funds")
     for key in totals.keys():
-        categoryLengths.append(len(key))
-        valueLengths.append(len(str(totals[key])))
+        msg += formatRow(sizes[0], sizes[1], key, f"₪{totals[key]}")
+    msg += getTitle(sizes[0], sizes[1], "Total", f"₪{user['data']['total']}")
 
-    spaces = 4
+    return msg
 
-    categorySize = max(categoryLengths) + spaces
-    valuesSize = max(valueLengths) + spaces
-    edge = "-" * (categorySize + valuesSize + 5)
-    msg = "```\n"
-    msg += f"{edge}\n"
-    msg += formatRow(categorySize, valuesSize, "Category", "Funds")
-    msg += f"{edge}\n"
-    for key in totals.keys():
-        msg += formatRow(categorySize, valuesSize, key, f"₪{totals[key]}")
-    msg += f"{edge}\n"
-    msg += formatRow(categorySize, valuesSize, "Total", f"₪{user['data']['total']}")
-    msg += f"{edge}\n"
-    msg += "```"
-
-    await channel.send(msg)
-
-
-async def addMoney(id, users, user, channel, args):
-    await channel.send(f"Adding ₪{args[0]}")
+def addMoney(id, users, user, args):
+    msg = f"Adding ₪{args[0]}\n"
 
     percentages = user["data"]["percentages"]
     funds = float(args[0])
@@ -106,7 +116,8 @@ async def addMoney(id, users, user, channel, args):
         totals.update({f"{key}": totals[key] + funds * (percentages[key] / 100.0)})
 
     if len(percentages.keys()) == 0:
-        await channel.send("Cannot Add Funds! There Are No Categories!")
+        msg += "Cannot Add Funds! There Are No Categories!\n"
+        return msg
 
     try:
         users.update_one(
@@ -116,16 +127,17 @@ async def addMoney(id, users, user, channel, args):
                 "$inc": {"data.total": funds}
             }
         )
-        await channel.send(f"Successfully Added ₪{funds}!")
+        msg += f"Successfully Added ₪{funds}!\n"
     except:
-        await channel.send("Failed To Add Funds!")
+        msg += "Failed To Add Funds!\n"
 
     user = users.find_one({"id": id})
-    await printTotals(id, users, user, channel, [])
+    msg += id, users, user, []
 
+    return msg
 
-async def clearBank(id, users, user, channel, args):
-    await channel.send("Clearing Funds")
+def clearBank(id, users, user, args):
+    msg = "Clearing Funds\n"
 
     totals = user["data"]["totals"]
 
@@ -133,7 +145,8 @@ async def clearBank(id, users, user, channel, args):
         totals.update({f"{key}": 0})
 
     if len(totals.keys()) == 0:
-        await channel.send("Cannot Clear Funds! There Are No Categories!")
+        msg += "Cannot Clear Funds! There Are No Categories!\n"
+        return msg
 
     try:
         users.update_one(
@@ -143,24 +156,25 @@ async def clearBank(id, users, user, channel, args):
             }
         )
 
-        await channel.send(f"Successfully Cleared Funds!")
+        msg += f"Successfully Cleared Funds!\n"
     except:
-        await channel.send("Failed To Clear Funds!")
+        msg += "Failed To Clear Funds!\n"
 
     user = users.find_one({"id": id})
-    await printTotals(id, users, user, channel, [])
+    msg += printTotals(id, users, user, [])
 
+    return msg
 
-async def useMoney(id, users, user, channel, args):
-    await channel.send(f"Using ₪{args[1]} From {args[0]}")
+def useMoney(id, users, user, args):
+    msg = f"Using ₪{args[1]} From {args[0]}\n"
 
     category = args[0]
     funds = float(args[1])
     totals = user["data"]["totals"]
 
     if not category in totals:
-        await channel.send("The Category Doesn't Exist!")
-        return
+        msg += "The Category Doesn't Exist!\n"
+        return msg
 
     totals.update({category: totals[category] - funds})
 
@@ -175,24 +189,25 @@ async def useMoney(id, users, user, channel, args):
             }
         )
 
-        await channel.send(f"Successfully Used  ₪{funds} From {category}")
+        msg += f"Successfully Used  ₪{funds} From {category}\n"
     except:
-        await channel.send("Failed To Use Funds!")
+        msg += "Failed To Use Funds!\n"
 
     user = users.find_one({"id": id})
-    await printTotals(id, users, user, channel, [])
+    msg += printTotals(id, users, user, [])
 
+    return msg
 
-async def addCategory(id, users, user, channel, args):
-    await channel.send(f"Adding Category: {args[0]} And Allocating {args[1]}%")
+def addCategory(id, users, user, args):
+    msg = f"Adding Category: {args[0]} And Allocating {args[1]}%\n"
 
     category = args[0]
     percentage = float(args[1])
     percentages = user["data"]["percentages"]
 
     if category in percentages.keys():
-        await channel.send("Category Already Exists!")
-        return
+        msg += "Category Already Exists!\n"
+        return msg
 
     try:
         users.update_one(
@@ -205,23 +220,24 @@ async def addCategory(id, users, user, channel, args):
             }
         )
 
-        await channel.send("Successfully Added Category!")
+        msg += "Successfully Added Category!\n"
     except:
-        await channel.send("Failed To Add Category!")
+        msg += "Failed To Add Category!'\n"
 
     user = users.find_one({"id": id})
-    await printPercentages(id, users, user, channel, [])
+    msg += printPercentages(id, users, user, [])
 
+    return msg
 
-async def removeCategory(id, users, user, channel, args):
-    await channel.send(f"Removing Category: {args[0]}")
+def removeCategory(id, users, user, args):
+    msg = f"Removing Category: {args[0]}\n"
 
     category = args[0]
     percentages = user["data"]["percentages"]
 
     if not category in percentages.keys():
-        await channel.send("Category Doesn't Exist!")
-        return
+        msg += "Category Doesn't Exist!\n"
+        return msg
 
     try:
         users.update_one(
@@ -234,23 +250,24 @@ async def removeCategory(id, users, user, channel, args):
             }
         )
 
-        await channel.send("Successfully Removed Category!")
+        msg += "Successfully Removed Category!\n"
     except:
-        await channel.send("Failed To Removed Category!")
+        msg += "Failed To Removed Category!\n"
 
     user = users.find_one({"id": id})
-    await printPercentages(id, users, user, channel, [])
+    msg += printPercentages(id, users, user, [])
 
+    return msg
 
-async def addPercentage(id, users, user, channel, args):
-    await channel.send(f"Allocating {args[1]}% More To {args[0]}")
+def addPercentage(id, users, user, args):
+    msg = f"Allocating {args[1]}% More To {args[0]}\n"
     category = args[0]
     percentage = float(args[1])
     percentages = user["data"]["percentages"]
 
     if not category in percentages.keys():
-        await channel.send("Category Doesn't Exist!")
-        return
+        msg += "Category Doesn't Exist!\n"
+        return msg
 
     try:
         users.update_one(
@@ -262,24 +279,25 @@ async def addPercentage(id, users, user, channel, args):
             }
         )
 
-        await channel.send(f"Successfully Allocated {percentage}% More To {category}")
+        msg += f"Successfully Allocated {percentage}% More To {category}\n"
     except:
-        await channel.send("Failed To Add Percentage!")
+        msg += "Failed To Add Percentage!\n"
 
     user = users.find_one({"id": id})
-    await printPercentages(id, users, user, channel, [])
+    msg += printPercentages(id, users, user, [])
 
+    return msg
 
-async def removePercentage(id, users, user, channel, args):
-    await channel.send(f"Allocating {args[1]}% Less To {args[0]}")
+def removePercentage(id, users, user, args):
+    msg = f"Allocating {args[1]}% Less To {args[0]}\n"
 
     category = args[0]
     percentage = float(args[1])
     percentages = user["data"]["percentages"]
 
     if not category in percentages.keys():
-        await channel.send("Category Doesn't Exist!")
-        return
+        msg += "Category Doesn't Exist!\n"
+        return msg
 
     try:
         users.update_one(
@@ -291,16 +309,17 @@ async def removePercentage(id, users, user, channel, args):
             }
         )
 
-        await channel.send(f"Successfully Allocated {percentage}% Less To {category}")
+        msg += f"Successfully Allocated {percentage}% Less To {category}\n"
     except:
-        await channel.send("Failed To Remove Percentage!")
+        msg += "Failed To Remove Percentage!\n"
 
     user = users.find_one({"id": id})
-    await printPercentages(id, users, user, channel, [])
+    msg += printPercentages(id, users, user, [])
 
+    return msg
 
-async def redistribute(id, users, user, channel, args):
-    await channel.send("Redistributing Funds!")
+def redistribute(id, users, user, args):
+    msg = "Redistributing Funds!\n"
     percentages = user["data"]["percentages"]
     total = user["data"]["total"]
 
@@ -310,7 +329,8 @@ async def redistribute(id, users, user, channel, args):
         totals.update({f"data.totals.{key}": total * (percentages[key] / 100.0)})
 
     if len(percentages.keys()) == 0:
-        await channel.send("Cannot Redistribute Funds! There Are No Categories!")
+        msg += "Cannot Redistribute Funds! There Are No Categories!\n"
+        return msg
 
     try:
         users.update_one(
@@ -320,17 +340,18 @@ async def redistribute(id, users, user, channel, args):
             }
         )
 
-        await channel.send(f"Successfully Redistributed Funds!")
+        msg += f"Successfully Redistributed Funds!\n"
     except:
-        await channel.send("Failed To Redistribute Funds!")
+        msg += "Failed To Redistribute Funds!\n"
 
     user = users.find_one({"id": id})
-    await printTotals(id, users, user, channel, [])
+    msg += printTotals(id, users, user, [])
 
+    return msg
 
-async def registerUser(id, users, user, channel, args):
+def registerUser(id, users, user, args):
     if user is None:
-        await channel.send(f"Registering...")
+        msg = f"Registering...\n"
         try:
             users.insert_one({
                 "id": id,
@@ -340,8 +361,10 @@ async def registerUser(id, users, user, channel, args):
                     "total": 0
                 }
             })
-            await channel.send(f"Registered Successfully!")
+            msg += f"Registered Successfully!\n"
         except:
-            await channel.send(f"Failed Registering User!")
+            msg += f"Failed Registering User!\n"
     else:
-        await channel.send(f"You Already Have A Bank")
+        msg = f"You Already Have A Bank"
+
+    return msg

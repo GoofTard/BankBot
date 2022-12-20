@@ -34,7 +34,7 @@ commands = {
     "add-percent": addPercentage,
     "rem-percent": removePercentage,
     "redis": redistribute,
-    "help": sendCommands,
+    "help": getCommands,
     "register": registerUser
 }
 
@@ -56,7 +56,8 @@ async def handleCommands(message):
             await channel.send("You Are Not Registered!")
             return
 
-        await commands[command](id, users, user, channel, args[1:])
+        await channel.send(f"```\n{await commands[command](id, users, user, args[1:])}\n```")
+
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')
     except IndexError:
