@@ -12,7 +12,7 @@ def getTitle(maxCatLen, maxPerLen, cat, val):
     return f"{edge}\n{formatRow(maxCatLen, maxPerLen, cat, val)}{edge}\n"
 
 def getTitleQuad(sizes, values):
-    edge = "-" * ((sizes[0] + sizes[1] + sizes[2] + sizes[3] + spaces*2 + 1) / 2)
+    edge = "-" * int((sizes[0] + sizes[1] + sizes[2] + sizes[3] + spaces*2 + 1) / 2)
 
     return f"{edge}\n{formatRowQuad(sizes, values)}{edge}\n"
 
