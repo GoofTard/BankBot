@@ -1,6 +1,3 @@
-from json import dumps
-
-
 async def sendCommands(id, users, user, channel, args):
     commands = {
         "percentages": "Shows all percentages",
