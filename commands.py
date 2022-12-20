@@ -4,7 +4,7 @@ def formatRow(maxCatLen, maxPerLen, cat, val):
 def getTitle(maxCatLen, maxPerLen, cat, val):
     edge = "-" * (maxCatLen + maxPerLen + 5)
 
-    return f"{edge}\n{formatRow(maxCatLen, maxPerLen, cat, val)}\n{edge}\n"
+    return f"{edge}\n{formatRow(maxCatLen, maxPerLen, cat, val)}{edge}\n"
 
 def getSizes(vals):
     catsLength = []
@@ -47,13 +47,12 @@ def getCommands(id, users, user, args):
     map = dict(commands)
     map.update({"Command": "Description"})
     sizes = getSizes(mapToTupleList(map))
-
+    edge = "-" * (sizes[0] + sizes[1] + 5)
     msg = getTitle(sizes[0], sizes[1], "Command", "Description")
     items = commands.items()
-
     for item in items:
         msg += formatRow(sizes[0], sizes[1], item[0], item[1])
-
+    msg += f"{edge}\n"
     return msg
 
 def getWarning(percentages):
