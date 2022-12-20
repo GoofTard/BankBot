@@ -36,7 +36,7 @@ async def sendWarning(channel, percentages):
         await channel.send(f"{msg}Please Add A Category Or Allocate {100 - totalPercent}% More To Somewhere!")
 
 def formatRow(maxCatLen, maxPerLen, cat, per):
-    return f"| {cat}{' ' * (maxCatLen - len(cat))}| {per}{' ' * (maxPerLen - len(per))}|\n"
+    return f"| {cat}{' ' * (maxCatLen - len(str(cat)))}| {per}{' ' * (maxPerLen - len(str(per)))}|\n"
 
 async def printPercentages(id, users, user, channel, args):
     percentages = user["data"]["percentages"]
