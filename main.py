@@ -57,11 +57,11 @@ async def handleCommands(message):
             return
 
         await commands[command](id, users, user, channel, args[1:])
-        with open('../../Downloads/logs.txt', 'a') as f:
+        with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {user} - {message}\n')
     except IndexError:
-        with open('../../Downloads/logs.txt', 'a') as f:
-            f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {user} - {message} (Not Enough Arguments)\n')
+        with open('logs.txt', 'a') as f:
+            f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {user} - {message}\n')
 
 
 @client.event
