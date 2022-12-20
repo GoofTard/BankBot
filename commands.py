@@ -87,7 +87,7 @@ def getCommands(id, users, user, args):
     sizes = calcSizes(tupleList)
 
 
-    edge = "-" * (sizes[0] + sizes[1] + 5)
+    edge = "-" * (sizes[0] + sizes[1] + sizes[2] + sizes[3] + spaces*2 + 1)
     msg = getTitleQuad(sizes, ("Commands", "Arguments", "Format", "Description"))
     for index in range(len(commands[0])):
         msg += formatRowQuad(sizes, (commands[0][index], commands[1][index], commands[2][index], commands[3][index]))
