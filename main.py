@@ -49,8 +49,6 @@ async def handleCommands(message):
         args = message.split(" ")
         command = args[0]
 
-
-
         if (command != "register") and (user is None):
             await channel.send("You Are Not Registered!")
             return
