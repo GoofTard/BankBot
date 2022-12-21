@@ -36,8 +36,8 @@ def getCommands():
         "redistribute": "Redistributes The Funds By Percentages",
         "register": "Registers The User",
         "funds": "Shows Each Category's Allocated Funds",
-        "add [amount]": "Adds [amount] To The Funds And Distributes It",
         "rem-cat [category]": "Removes [category] From The Categories",
+        "add [amount] [category](Optional)": "Adds [amount] To [category](If Given, If Else It Distributes)",
         "add-cat [category] [percentage]": "Adds [category] And Allocates [Percentage] To It",
         "add-percent [category] [percentage]": "Adds [percentage] To [category]",
         "rem-percent [category] [percentage]": "Removes [percentage] From [category]",
@@ -105,18 +105,22 @@ def printTotals(id, users, user, args):
     return msg
 
 def addMoney(id, users, user, args):
-    msg = f"Adding ₪{args[0]}\n"
-
     percentages = user["data"]["percentages"]
     funds = float(args[0])
     totals = user["data"]["totals"]
 
-    for key in percentages.keys():
-        totals.update({f"{key}": totals[key] + funds * (percentages[key] / 100.0)})
+    if len(args) > 1:
+        msg = f"Adding ₪{args[0]} To {args[1]}\n"
+        category = args[1]
+        totals.update({category: totals[category] + funds})
+    else:
+        msg = f"Adding ₪{args[0]}\n"
+        for key in percentages.keys():
+            totals.update({key: totals[key] + funds * (percentages[key] / 100.0)})
 
-    if len(percentages.keys()) == 0:
-        msg += "Cannot Add Funds! There Are No Categories!\n"
-        return msg
+        if len(percentages.keys()) == 0:
+            msg += "Cannot Add Funds! There Are No Categories!\n"
+            return msg
 
     try:
         users.update_one(
@@ -126,7 +130,11 @@ def addMoney(id, users, user, args):
                 "$inc": {"data.total": funds}
             }
         )
-        msg += f"Successfully Added ₪{funds}!\n"
+        if len(args) > 1:
+            msg += f"Successfully Added ₪{funds} To {args[1]}!\n"
+        else:
+            msg += f"Successfully Added ₪{funds}!\n"
+
     except:
         msg += "Failed To Add Funds!\n"
 
