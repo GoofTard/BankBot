@@ -17,17 +17,11 @@ try:
 
     db = dbClient["admin"]
     users = db["users"]
-    users.update_many(
-        {},
-        {
-            "$set": {
-                "usages": {
-                    "total": 0,
-                    "transactions": []
-                }
-            }
-        }
-    )
+    last_month = db["last_month"]
+    last_month.insert_one({
+        "date": datetime(2022, 12, 1)
+    })
+    print(last_month.find_one({}))
     print("Successfully Connected to DB!")
 except Exception as e:
     print(e)
