@@ -17,6 +17,17 @@ try:
 
     db = dbClient["admin"]
     users = db["users"]
+    users.update_many(
+        {},
+        {
+            "$set": {
+                "usages": {
+                    "total": 0,
+                    "transactions": []
+                }
+            }
+        }
+    )
     print("Successfully Connected to DB!")
 except Exception as e:
     print(e)
