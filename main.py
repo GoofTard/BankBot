@@ -20,7 +20,7 @@ try:
     users = db["users"]
     last_month = db["last_month"].find_one()["date"]
     print("Successfully Connected to DB!")
-    print(users.find_one({})["usages"])
+    print(users.find_one({}))
 
 except Exception as e:
     print(e)
