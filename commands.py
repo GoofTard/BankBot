@@ -191,8 +191,12 @@ def useMoney(id, users, user, args):
             {
                 "$set": {
                     "data.totals": totals,
-                    "data.total": user["data"]["total"] - funds
+                    "data.total": user["data"]["total"] - funds,
+                    "usages.total": users["usages"]["total"] + funds
                 },
+                "$push": {
+                    "usages.transactions": (category, funds)
+                }
             }
         )
 
