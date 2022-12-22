@@ -19,8 +19,34 @@ try:
     db = dbClient["admin"]
     users = db["users"]
     last_month = db["last_month"].find_one()["date"]
+
+    users.update_many(
+        {},
+        {
+            "$set": {
+                "usages": {
+                    "total": 0,
+                    "transactions": []
+                }
+            }
+        }
+    )
+
     print("Successfully Connected to DB!")
     print(users.find_one({}))
+
+    if relativedelta.relativedelta(datetime.now(), last_month).months > 1:
+        users.update_many(
+            {},
+            {
+                "$set": {
+                    "usages": {
+                        "total": 0,
+                        "transactions": []
+                    }
+                }
+            }
+        )
 
 except Exception as e:
     print(e)
