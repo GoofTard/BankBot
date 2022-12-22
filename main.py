@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from commands import *
 from datetime import datetime
+from dateutil import relativedelta
 
 load_dotenv(".env")
 
@@ -17,9 +18,10 @@ try:
 
     db = dbClient["admin"]
     users = db["users"]
-    last_month = db["last_month"]
-    print(last_month.find_one({})["date"])
+    last_month = db["last_month"].find_one()["date"]
     print("Successfully Connected to DB!")
+    print(users.find_one({})["usages"])
+
 except Exception as e:
     print(e)
 
