@@ -18,10 +18,7 @@ try:
     db = dbClient["admin"]
     users = db["users"]
     last_month = db["last_month"]
-    last_month.insert_one({
-        "date": datetime(2022, 12, 1)
-    })
-    print(last_month.find_one({}))
+    print(last_month.find_one({})["date"])
     print("Successfully Connected to DB!")
 except Exception as e:
     print(e)
