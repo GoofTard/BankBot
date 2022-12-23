@@ -72,6 +72,11 @@ class DatabaseConnection(object):
     def registerUser(self, userId: str) -> bool:
         try:
             self.getUser(userId)
+        except:
+            return False
+
+        try:
+
             self.users.insert_one({
                     "id": id,
                     "data": {
