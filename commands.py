@@ -424,7 +424,7 @@ def getTransactions(id, users, user, args):
     if len(transactions) == 0:
         return "There Were No Transactions!"
 
-    categories: {}
+    categories = {}
     for entry in transactions:
         category = list(entry.keys())[0]
         funds = entry[category]
