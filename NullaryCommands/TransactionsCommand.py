@@ -23,10 +23,6 @@ class TransactionsCommand(Command):
             else:
                 categories.update({category: funds})
 
-        map = dict(categories)
-        map.update({"Category": "Funds Spent"})
-        map.update({"Total": f"₪{user['usages']['total']}"})
-
-        msg += format(map, ("Category", "Funds Spent"), ("Total", f"₪{user['usages']['total']}"))
+        msg += format(categories, ("Category", "Funds Spent"), ("Total", f"₪{user['usages']['total']}"))
 
         return msg
