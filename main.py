@@ -19,19 +19,14 @@ try:
     db = dbClient["admin"]
     users = db["users"]
     last_month = db["last_month"].find_one()["date"]
-
-    # users.update_many(
-    #     {},
-    #     {
-    #         "$set": {
-    #             "usages": {
-    #                 "total": 0,
-    #                 "transactions": []
-    #             }
-    #         }
-    #     }
-    # )
-
+    db["last_month"].update_one(
+        {},
+        {
+            "$set": {
+                "last_month": datetime(datetime.now().year, datetime.now().month - 1, 1)
+            }
+        }
+    )
     print("Successfully Connected to DB!")
     print(users.find_one({}))
     print(last_month)
@@ -56,6 +51,8 @@ try:
                 }
             }
         )
+        print(users.find_one({}))
+        print(last_month)
 
 except Exception as e:
     print(e)

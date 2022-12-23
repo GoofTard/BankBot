@@ -195,7 +195,7 @@ def useMoney(id, users, user, args):
                     "usages.total": user["usages"]["total"] + funds
                 },
                 "$push": {
-                    "usages.transactions": (category, funds)
+                    "usages.transactions": {category: funds}
                 }
             }
         )
