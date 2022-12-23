@@ -186,14 +186,13 @@ def useMoney(id, users, user, args):
     totals.update({category: totals[category] - funds})
 
     try:
-        print(users["usages"]["total"])
         users.update_one(
             {"id": id},
             {
                 "$set": {
                     "data.totals": totals,
                     "data.total": user["data"]["total"] - funds,
-                    "usages.total": users["usages"]["total"] + funds
+                    "usages.total": user["usages"]["total"] + funds
                 },
                 "$push": {
                     "usages.transactions": (category, funds)
