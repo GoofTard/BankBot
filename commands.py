@@ -418,7 +418,7 @@ def transferFunds(id, users, user, args):
     return msg
 
 def getTransactions(id, users, user, args):
-    msg = f"{args[0]}'s Transactions:"
+    msg = f"{args[0]}'s Transactions:\n"
     transactions = user["usages"]["transactions"]
 
     if len(transactions) == 0:
