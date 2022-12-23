@@ -1,9 +1,11 @@
 import discord
+
 from dotenv import load_dotenv
 import os
 from DatabaseConnection import DatabaseConnection
 from datetime import datetime
 from dateutil import relativedelta
+import re
 
 from BinaryCommands.AddCategoryCommand import AddCategoryCommand
 from BinaryCommands.AddCommand import AddCommand
@@ -63,20 +65,27 @@ commands = {
     "transactions": TransactionsCommand()
 }
 
+def splitCommandLine(message: str) -> list:
+    command = re.findall("^([\w\-]+)", message)[0]
+    args = re.findall("(-[\w]*)|\"(.*?)\"")
+
+    return (command, args)
+
 async def handleCommands(message):
     id = None
     try:
         channel = message.channel
         id = str(message.author.id) if not bool(os.environ.get("IS_TEST")) else "TEST"
         message = message.content.casefold()
-        args = message.split(" ")
-        command = args[0]
-        commandLine = args[1:]
+        (command, args) = splitCommandLine(message)
+
+        print(command)
+        print(args)
 
         if bool(os.environ.get("IS_TEST")):
             await channel.send(f"```\nNOTICE!!!!\nTHE BOT IS IN TEST MODE AT THE MOMENT\n```")
 
-        await channel.send(f"```\n{commands[command].execute(id, commandLine)}\n```")
+        await channel.send(f"```\n{commands[command].execute(id, args)}\n```")
 
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')

@@ -59,10 +59,10 @@ class DatabaseConnection(object):
         except:
             return False
 
-    def updateUsers(self, query: dict, id: str = None) -> bool:
+    def updateUsers(self, query: dict) -> bool:
         try:
             self.users.update_many(
-                {"id": id } if not str is None else {},
+                {},
                 query
             )
             return True
