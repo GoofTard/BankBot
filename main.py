@@ -65,9 +65,9 @@ commands = {
     "transactions": TransactionsCommand()
 }
 
-def splitCommandLine(message: str) -> list:
+def splitCommandLine(message: str) -> tuple:
     command = re.findall("^([\w\-]+)", message)[0]
-    args = re.findall("(-[\w]*)|\"(.*?)\"")
+    args = re.findall("(-[\w]*)|\"(.*?)\"", message)
 
     return (command, args)
 
