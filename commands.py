@@ -201,7 +201,8 @@ def useMoney(id, users, user, args):
         )
 
         msg += f"Successfully Used  ₪{funds} From {category}\n"
-    except:
+    except Exception as e:
+        print(e)
         msg += "Failed To Use Funds!\n"
 
     user = users.find_one({"id": id})
