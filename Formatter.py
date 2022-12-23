@@ -129,7 +129,7 @@ def formatExtended(columns: int, items: list, upperTitle: list, lowerTitle: list
 
     sizes = getSizesExtended(values, columns)
     msg = getTitleExtended(sizes, upperTitle)
-    for val in values:
+    for val in items:
         msg += formatRowExtended(sizes, val)
 
     if not lowerTitle is None:
