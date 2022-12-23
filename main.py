@@ -20,11 +20,8 @@ try:
     users = db["users"]
     last_month = db["last_month"].find_one()["date"]
     print("Successfully Connected to DB!")
-    print(users.find_one({}))
-    print(last_month)
 
     if relativedelta.relativedelta(datetime.now(), last_month).months >= 1:
-        print("here")
         users.update_many(
             {},
             {
@@ -40,7 +37,7 @@ try:
             {},
             {
                 "$set": {
-                    "last_month": datetime(datetime.now().year, datetime.now().month, 1)
+                    "date": datetime(datetime.now().year, datetime.now().month, 1)
                 }
             }
         )
