@@ -10,10 +10,15 @@ class TransactionsCommand(Command):
         user = dbCon.getUser(userId)
         msg = f"{month}'s Transactions:\n"
         transactions = user["usages"]["transactions"]
-        is_extended = commandLine[0].casefold() == "extended"
+
+        is_extended = False
 
         if len(transactions) == 0:
             return "There Were No Transactions!\n"
+
+        if len(commandLine) > 0:
+            if commandLine[0].casefold() == "extended":
+                is_extended = True
 
         if is_extended:
             msg += formatExtended(
