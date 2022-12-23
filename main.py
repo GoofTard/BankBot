@@ -73,6 +73,9 @@ async def handleCommands(message):
         command = args[0]
         commandLine = args[1:]
 
+        if bool(os.environ.get("IS_TEST")):
+            await channel.send(f"```\nNOTICE!!!!\nTHE BOT IS IN TEST MODE AT THE MOMENT\n```")
+
         await channel.send(f"```\n{commands[command].execute(id, commandLine)}\n```")
 
         with open('logs.txt', 'a') as f:
