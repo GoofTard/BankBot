@@ -19,17 +19,10 @@ try:
     db = dbClient["admin"]
     users = db["users"]
     last_month = db["last_month"].find_one()["date"]
-    db["last_month"].update_one(
-        {},
-        {
-            "$set": {
-                "date": datetime(2022, 11, 1)
-            }
-        }
-    )
     print("Successfully Connected to DB!")
     print(users.find_one({}))
-    print(db["last_month"].find_one()["date"])
+    print(last_month)
+    print(relativedelta.relativedelta(datetime.now(), last_month).months)
 
     if relativedelta.relativedelta(datetime.now(), last_month).months > 1:
         print("here")
