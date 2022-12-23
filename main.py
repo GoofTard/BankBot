@@ -39,6 +39,7 @@ try:
             }
         )
         dbCon.updateLastMonth()
+    print(dbCon.getUser("TEST"))
 
 except Exception as e:
     print(e)
