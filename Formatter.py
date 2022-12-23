@@ -32,13 +32,13 @@ def mapToTupleList(map):
 def addPrefix(map: dict, prefix: str) -> dict:
     newMap = dict(map)
     for key in newMap.keys():
-        newMap.update({key: prefix + newMap[key]})
+        newMap.update({key: f"{prefix}{newMap[key]}"})
     return newMap
 
 def addPostfix(map: dict, postfix: str) -> dict:
     newMap = dict(map)
     for key in newMap.keys():
-        newMap.update({key: newMap[key] + postfix})
+        newMap.update({key: f"{newMap[key]}{postfix}"})
     return newMap
 
 def getWarning(percentages):
