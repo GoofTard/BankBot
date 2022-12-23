@@ -28,6 +28,11 @@ class UseCommand(Command):
 
         totals.update({category: totals[category] - funds})
 
+        if not message is None:
+            message = message[1:len(message)-1]
+        else:
+            message = ""
+
         updated = dbCon.updateUser(
             {
                 "$set": {
@@ -36,7 +41,7 @@ class UseCommand(Command):
                     "usages.total": user["usages"]["total"] + funds
                 },
                 "$push": {
-                    "usages.transactions": (category, funds, str(message))
+                    "usages.transactions": (category, funds, message)
                 }
             },
             userId
