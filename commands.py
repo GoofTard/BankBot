@@ -440,6 +440,6 @@ def getTransactions(id, users, user, args):
     msg += getTitle(sizes[0], sizes[1], "Category", "Funds Spent")
     for key in categories.keys():
         msg += formatRow(sizes[0], sizes[1], key, f"₪{categories[key]}")
-    msg += getTitle(sizes[0], sizes[1], "Total", f"₪{user['usage']['total']}")
+    msg += getTitle(sizes[0], sizes[1], "Total", f"₪{user['usages']['total']}")
 
     return msg
