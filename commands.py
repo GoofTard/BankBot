@@ -436,6 +436,7 @@ def getTransactions(id, users, user, args):
     map = dict(categories)
     map.update({"Category": "Funds Spent"})
     map.update({"Total": f"₪{user['usage']['total']}"})
+
     sizes = getSizes(mapToTupleList(map))
     msg += getTitle(sizes[0], sizes[1], "Category", "Funds Spent")
     for key in categories.keys():
