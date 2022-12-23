@@ -418,6 +418,7 @@ def transferFunds(id, users, user, args):
     return msg
 
 def getTransactions(id, users, user, args):
+    print("Here")
     msg = f"{args[0]}'s Transactions:"
     transactions = user["usages"]["transactions"]
 
