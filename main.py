@@ -23,7 +23,7 @@ try:
         {},
         {
             "$set": {
-                "last_month": datetime(datetime.now().year, datetime.now().month - 1, 1)
+                "last_month": datetime(2022, 11, 1)
             }
         }
     )
@@ -32,6 +32,7 @@ try:
     print(last_month)
 
     if relativedelta.relativedelta(datetime.now(), last_month).months > 1:
+        print("here")
         users.update_many(
             {},
             {
