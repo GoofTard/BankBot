@@ -15,6 +15,8 @@ class TransactionsCommand(Command):
         for entry in transactions:
             entry[1] = f"₪{entry[1]}"
 
+        print(transactions)
+
         if len(transactions) == 0:
             return "There Were No Transactions!\n"
 
