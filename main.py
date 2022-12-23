@@ -66,9 +66,9 @@ commands = {
 }
 
 def splitCommandLine(message: str) -> tuple:
-    command = re.findall("^([\w\-]+)", message)[0]
+    command = re.findall("^([\w\-]+)", message)[0].casefold()
     message = " ".join(message.split(" ")[1:])
-    args = re.findall("([\w]+)|\"(.*?)\"", message)
+    args = re.findall("[\w]+|\".*?\"", message)
 
     return (command, args)
 
@@ -77,7 +77,7 @@ async def handleCommands(message):
     try:
         channel = message.channel
         id = str(message.author.id) if not bool(os.environ.get("IS_TEST")) else "TEST"
-        message = message.content.casefold()
+        message = message.content
         (command, args) = splitCommandLine(message)
 
         print(command)
