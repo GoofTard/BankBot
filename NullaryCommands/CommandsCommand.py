@@ -24,4 +24,4 @@ class CommandsCommand(Command):
         commands = dict(self.commands)
         commands.update({"Command Format": "Description"})
 
-        return format(commands, ("Command Format", "Description"))
+        return format(self.commands, ("Command Format", "Description"))
