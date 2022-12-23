@@ -86,3 +86,23 @@ class DatabaseConnection(object):
             return True
         except:
             return False
+
+    def resetTestUser(self):
+        try:
+            self.users.update_one(
+                {"id": "TEST"},
+                {
+                    "data": {
+                        "percentages": {},
+                        "totals": {},
+                        "total": 0
+                    },
+                    "usages": {
+                        "total": 0,
+                        "transactions": []
+                    }
+                }
+            )
+            return True
+        except:
+            return False
