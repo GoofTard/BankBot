@@ -6,7 +6,7 @@ def formatRow(sizes, values):
 def formatRowExtended(sizes, values):
     row = ""
     for index in range(len(sizes)):
-        row += f"| {values[index]}{' ' * (sizes[index] - len(str(values[index])))}"
+        row += f"| {values[index]}{' ' * (sizes[index] - len(str(values[index])))} "
     row += " |\n"
 
     return row
