@@ -32,10 +32,11 @@ def mapToTupleList(map):
 def getCommands():
     commands = {
         "clear": "Clears User's Funds",
+        "funds": "Shows Each Category's Allocated Funds",
         "percentages": "Shows Each Category's Allocated Percentages",
         "redistribute": "Redistributes The Funds By Percentages",
         "register": "Registers The User",
-        "funds": "Shows Each Category's Allocated Funds",
+        "transactions": "Shows This Month's Transactions",
         "rem-cat [category]": "Removes [category] From The Categories",
         "add [amount] [category](Optional)": "Adds [amount] To [category](If Given, If Else It Distributes)",
         "add-cat [category] [percentage]": "Adds [category] And Allocates [Percentage] To It",
@@ -413,5 +414,31 @@ def transferFunds(id, users, user, args):
         msg += f"Failed Transferring Funds!\n"
 
     msg += printTotals(id, users, user, [])
+
+    return msg
+
+def getTransactions(id, users, user, args):
+    msg = f"{args[0]}'s Transactions:"
+    transactions = user["usages"]["transactions"]
+
+    if len(transactions) == 0:
+        return "There Were No Transactions!"
+
+    categories: {}
+    for entry in transactions:
+        category = entry.keys()[0]
+        funds = entry[category]
+        if category in categories:
+            categories.update({category: categories[category] + funds})
+        else:
+            categories.update({category: funds})
+
+    map = dict(categories)
+    map.update({"Category": "Funds Spent"})
+    sizes = getSizes(mapToTupleList(map))
+    msg += getTitle(sizes[0], sizes[1], "Category", "Funds Spent")
+    for key in categories.keys():
+        msg += formatRow(sizes[0], sizes[1], key, f"₪{categories[key]}")
+    msg += getTitle(sizes[0], sizes[1], "Total", f"₪{user['data']['total']}")
 
     return msg

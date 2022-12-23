@@ -60,7 +60,8 @@ commands = {
     "rem-percent": removePercentage,
     "redistribute": redistribute,
     "register": registerUser,
-    "transfer": transferFunds
+    "transfer": transferFunds,
+    "transactions": getTransactions
 }
 
 
@@ -80,6 +81,8 @@ async def handleCommands(message):
 
         if command == "help":
             await channel.send(f"```ini\n{getCommands()}\n```")
+        elif command == "transactions":
+            args.append(last_month.strftime("%B"))
         elif not command in commands:
             return
         else:
