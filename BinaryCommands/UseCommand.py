@@ -13,6 +13,15 @@ class UseCommand(Command):
         totals = user["data"]["totals"]
         msg = f"Using ₪{funds} From {category}\n"
 
+        argsAmount = len(commandLine)
+        message = None
+
+        if argsAmount > 3:
+            return "Too Many Arguments!"
+
+        if argsAmount == 3:
+            message = commandLine[2]
+
         if not category in totals:
             msg += "The Category Doesn't Exist!\n"
             return msg
@@ -27,7 +36,7 @@ class UseCommand(Command):
                     "usages.total": user["usages"]["total"] + funds
                 },
                 "$push": {
-                    "usages.transactions": {category: funds}
+                    "usages.transactions": (category, funds, str(message))
                 }
             },
             userId
