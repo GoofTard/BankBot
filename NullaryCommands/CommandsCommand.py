@@ -21,7 +21,4 @@ class CommandsCommand(Command):
         }
 
     def execute(self, userId: str, commandLine: list = []) -> str:
-        commands = dict(self.commands)
-        commands.update({"Command Format": "Description"})
-
         return format(self.commands, ("Command Format", "Description"))
