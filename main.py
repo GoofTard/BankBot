@@ -23,7 +23,7 @@ try:
         {},
         {
             "$set": {
-                "last_month": datetime(2022, 11, 1)
+                "date": datetime(2022, 11, 1)
             }
         }
     )
