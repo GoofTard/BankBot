@@ -1,7 +1,7 @@
 spaces = 4
 
 def formatRow(sizes, values):
-    return f"| {values[0]}{' ' * (sizes[0] - len(str(values[0])))}| {values[1]}{' ' * (sizes[1] - len(str(values[1])))}|\n"
+    return f"| {values[0]}{' ' * (sizes[0] - len(str(values[0])))}| {values[1]}{' ' * (sizes[1] - len(str(values[1])))} |\n"
 
 def formatRowExtended(sizes, values):
     row = ""
