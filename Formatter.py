@@ -12,7 +12,7 @@ def formatRowExtended(sizes, values):
     return row
 
 def getTitle(sizes, values):
-    edge = "-" * (sizes[0] + sizes[1] + spaces + 1)
+    edge = "-" * (sizes[0] + sizes[1] + spaces + 2)
 
     return f"{edge}\n{formatRow(sizes, values)}{edge}\n"
 
