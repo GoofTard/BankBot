@@ -186,6 +186,7 @@ def useMoney(id, users, user, args):
     totals.update({category: totals[category] - funds})
 
     try:
+        print(users["usages"]["total"])
         users.update_one(
             {"id": id},
             {
