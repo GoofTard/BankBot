@@ -422,7 +422,7 @@ def getTransactions(id, users, user, args):
     transactions = user["usages"]["transactions"]
 
     if len(transactions) == 0:
-        return "There Were No Transactions!"
+        return "There Were No Transactions!\n"
 
     categories = {}
     for entry in transactions:
@@ -435,10 +435,11 @@ def getTransactions(id, users, user, args):
 
     map = dict(categories)
     map.update({"Category": "Funds Spent"})
+    map.update({"Total": f"₪{user['usage']['total']}"})
     sizes = getSizes(mapToTupleList(map))
     msg += getTitle(sizes[0], sizes[1], "Category", "Funds Spent")
     for key in categories.keys():
         msg += formatRow(sizes[0], sizes[1], key, f"₪{categories[key]}")
-    msg += getTitle(sizes[0], sizes[1], "Total", f"₪{user['data']['total']}")
+    msg += getTitle(sizes[0], sizes[1], "Total", f"₪{user['usage']['total']}")
 
     return msg
