@@ -28,8 +28,7 @@ class TransactionsCommand(Command):
             msg += formatExtended(
                 3,
                 transactions,
-                ["Category", "Funds Spent", "Message"],
-                ["Total", f"₪{user['usages']['total']}", ""]
+                ["Category", "Funds Spent", "Message"]
             )
             msg += "\n"
 
