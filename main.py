@@ -21,7 +21,6 @@ try:
     last_month = db["last_month"].find_one()["date"]
     print("Successfully Connected to DB!")
 
-
     if relativedelta.relativedelta(datetime.now(), last_month).months >= 1:
         users.update_many(
             {},
