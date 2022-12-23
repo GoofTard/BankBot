@@ -140,7 +140,7 @@ def addMoney(id, users, user, args):
         msg += "Failed To Add Funds!\n"
 
     user = users.find_one({"id": id})
-    msg += id, users, user, []
+    msg += printTotals(id, users, user, [])
 
     return msg
 
