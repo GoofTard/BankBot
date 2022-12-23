@@ -67,7 +67,8 @@ commands = {
 
 def splitCommandLine(message: str) -> tuple:
     command = re.findall("^([\w\-]+)", message)[0]
-    args = re.findall("(-[\w]*)|\"(.*?)\"", message)
+    message = " ".join(message.split(" ")[1:])
+    args = re.findall("([\w]+)|\"(.*?)\"", message)
 
     return (command, args)
 
