@@ -65,6 +65,9 @@ def format(map: dict, upperTitle: tuple, lowerTitle: tuple = None) -> str:
     if not lowerTitle is None:
             mapWithTitle.update({lowerTitle[0]: lowerTitle[1]})
 
+    if len(map.keys()) == 0:
+        map.update({"": ""})
+
     sizes = getSizes(mapToTupleList(mapWithTitle))
 
     msg = getTitle(sizes, upperTitle)
