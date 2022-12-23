@@ -59,13 +59,13 @@ def getWarning(percentages):
     return msg
 
 def format(map: dict, upperTitle: tuple, lowerTitle: tuple = None) -> str:
-    map = dict(map)
-    map.update({upperTitle[0]: upperTitle[1]})
+    mapWithTitle = dict(map)
+    mapWithTitle.update({upperTitle[0]: upperTitle[1]})
 
     if not lowerTitle is None:
-            map.update({lowerTitle[0]: lowerTitle[1]})
+            mapWithTitle.update({lowerTitle[0]: lowerTitle[1]})
 
-    sizes = getSizes(mapToTupleList(map))
+    sizes = getSizes(mapToTupleList(mapWithTitle))
 
     msg = getTitle(sizes, upperTitle)
     for key in map.keys():
