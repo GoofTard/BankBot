@@ -10,8 +10,10 @@ class TransactionsCommand(Command):
         user = dbCon.getUser(userId)
         msg = f"{month}'s Transactions:\n"
         transactions = user["usages"]["transactions"]
-
         is_extended = False
+
+        for entry in transactions:
+            entry[1] = f"₪{entry[1]}"
 
         if len(transactions) == 0:
             return "There Were No Transactions!\n"
@@ -37,6 +39,6 @@ class TransactionsCommand(Command):
                 categories.update({category: categories[category] + funds})
             else:
                 categories.update({category: funds})
-        msg += format(categories, ("Category", "Funds Spent"), ("Total", f"₪{user['usages']['total']}"))
+        msg += format(categories, ("Category", "Total Funds Spent"), ("Total", f"₪{user['usages']['total']}"))
 
         return msg

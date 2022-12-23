@@ -69,6 +69,14 @@ def addPrefix(map: dict, prefix: str) -> dict:
         newMap.update({key: f"{prefix}{newMap[key]}"})
     return newMap
 
+def addPrefixExtended(list: list, prefix: str):
+    for index in range(len(list)):
+       list[index] = f"{prefix}{list[index]}"
+
+def addPostfixExtended(list: list, postfix: str):
+    for index in range(len(list)):
+        list[index] = f"{list[index]}{postfix}"
+
 def addPostfix(map: dict, postfix: str) -> dict:
     newMap = dict(map)
     for key in newMap.keys():
