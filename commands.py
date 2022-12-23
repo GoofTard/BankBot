@@ -418,7 +418,6 @@ def transferFunds(id, users, user, args):
     return msg
 
 def getTransactions(id, users, user, args):
-    print("Here")
     msg = f"{args[0]}'s Transactions:"
     transactions = user["usages"]["transactions"]
 
@@ -427,7 +426,7 @@ def getTransactions(id, users, user, args):
 
     categories: {}
     for entry in transactions:
-        category = entry.keys()[0]
+        category = list(entry.keys())[0]
         funds = entry[category]
         if category in categories:
             categories.update({category: categories[category] + funds})
