@@ -1,6 +1,7 @@
 from Command import Command
 from DatabaseConnection import DatabaseConnection
-from FundsCommand import FundsCommand
+from NullaryCommands.FundsCommand import FundsCommand
+
 
 class ClearCommand(Command):
     def execute(self, userId: str, commandLine: list = []) -> str:

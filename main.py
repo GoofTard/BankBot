@@ -1,16 +1,15 @@
 import discord
 from dotenv import load_dotenv
 import os
+from DatabaseConnection import DatabaseConnection
+from datetime import datetime
+from dateutil import relativedelta
 
 from BinaryCommands.AddCategoryCommand import AddCategoryCommand
 from BinaryCommands.AddCommand import AddCommand
 from BinaryCommands.AddPercentageCommand import AddPercentageCommand
 from BinaryCommands.RemovePercentageCommand import RemovePercentageCommand
 from BinaryCommands.UseCommand import UseCommand
-from DatabaseConnection import DatabaseConnection
-from datetime import datetime
-from dateutil import relativedelta
-
 from NullaryCommands.ClearCommand import ClearCommand
 from NullaryCommands.CommandsCommand import CommandsCommand
 from NullaryCommands.FundsCommand import FundsCommand
