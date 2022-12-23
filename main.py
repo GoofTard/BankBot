@@ -1,10 +1,25 @@
 import discord
-import pymongo
 from dotenv import load_dotenv
 import os
-from commands import *
+
+from BinaryCommands.AddCategoryCommand import AddCategoryCommand
+from BinaryCommands.AddCommand import AddCommand
+from BinaryCommands.AddPercentageCommand import AddPercentageCommand
+from BinaryCommands.RemovePercentageCommand import RemovePercentageCommand
+from BinaryCommands.UseCommand import UseCommand
+from DatabaseConnection import DatabaseConnection
 from datetime import datetime
 from dateutil import relativedelta
+
+from NullaryCommands.ClearCommand import ClearCommand
+from NullaryCommands.CommandsCommand import CommandsCommand
+from NullaryCommands.FundsCommand import FundsCommand
+from NullaryCommands.PercentagesCommand import PercentagesCommand
+from NullaryCommands.RedistributeCommand import RedistributeCommand
+from NullaryCommands.RegisterCommand import RegisterCommand
+from NullaryCommands.TransactionsCommand import TransactionsCommand
+from ThreeArgsCommands.TransferCommand import TransferCommand
+from UnaryCommands.RemoveCategoryCommand import RemoveCategoryCommand
 
 load_dotenv(".env")
 
@@ -12,17 +27,11 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 try:
-    dbClient = pymongo.MongoClient(os.environ.get('MONGO_KEY'))
-    if not 'admin' in dbClient.list_database_names():
-        raise Exception("DB Does'nt Esists")
-
-    db = dbClient["admin"]
-    users = db["users"]
-    last_month = db["last_month"].find_one()["date"]
+    dbCon = DatabaseConnection.instance()
+    dbCon.registerUser("TEST")
     print("Successfully Connected to DB!")
-    if relativedelta.relativedelta(datetime.now(), last_month).months >= 1:
-        users.update_many(
-            {},
+    if relativedelta.relativedelta(datetime.now(), dbCon.getLastMonth()).months >= 1:
+        dbCon.updateUsers(
             {
                 "$set": {
                     "usages": {
@@ -32,16 +41,7 @@ try:
                 }
             }
         )
-        db["last_month"].update_one(
-            {},
-            {
-                "$set": {
-                    "date": datetime(datetime.now().year, datetime.now().month, 1)
-                }
-            }
-        )
-        last_month = db["last_month"].find_one()["date"]
-
+        dbCon.updateLastMonth()
 
 except Exception as e:
     print(e)
@@ -49,49 +49,37 @@ except Exception as e:
 client = discord.Client(intents=intents)
 
 commands = {
-    "percentages": printPercentages,
-    "funds": printTotals,
-    "add": addMoney,
-    "clear": clearBank,
-    "use": useMoney,
-    "add-cat": addCategory,
-    "rem-cat": removeCategory,
-    "add-percent": addPercentage,
-    "rem-percent": removePercentage,
-    "redistribute": redistribute,
-    "register": registerUser,
-    "transfer": transferFunds,
-    "transactions": getTransactions
+    "help": CommandsCommand(),
+    "percentages": PercentagesCommand(),
+    "funds": FundsCommand(),
+    "add": AddCommand(),
+    "clear": ClearCommand(),
+    "use": UseCommand(),
+    "add-cat": AddCategoryCommand(),
+    "rem-cat": RemoveCategoryCommand(),
+    "add-percent": AddPercentageCommand(),
+    "rem-percent": RemovePercentageCommand(),
+    "redistribute": RedistributeCommand(),
+    "register": RegisterCommand(),
+    "transfer": TransferCommand(),
+    "transactions": TransactionsCommand()
 }
 
-
 async def handleCommands(message):
-    global user, id
+    id = None
     try:
         channel = message.channel
-        id = str(message.author.id)
-        user = users.find_one({"id": id})
+        id = str(message.author.id) if not bool(os.environ.get("IS_TEST")) else "TEST"
         message = message.content.casefold()
         args = message.split(" ")
         command = args[0]
+        commandLine = args[1:]
 
-        if (command != "register") and (user is None):
-            await channel.send("You Are Not Registered!")
-            return
-
-        if command == "help":
-            await channel.send(f"```ini\n{getCommands()}\n```")
-        elif command == "transactions":
-            args.append(last_month.strftime("%B"))
-            await channel.send(f"```\n{commands[command](id, users, user, args[1:])}\n```")
-        elif not command in commands:
-            return
-        else:
-            await channel.send(f"```\n{commands[command](id, users, user, args[1:])}\n```")
+        await channel.send(f"```\n{commands[command].execute(id, commandLine)}\n```")
 
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')
-    except IndexError:
+    except Exception:
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {id} - {message}\n')
 
