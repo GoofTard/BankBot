@@ -29,7 +29,7 @@ try:
     )
     print("Successfully Connected to DB!")
     print(users.find_one({}))
-    print(last_month)
+    print(db["last_month"].find_one()["date"])
 
     if relativedelta.relativedelta(datetime.now(), last_month).months > 1:
         print("here")
