@@ -80,9 +80,6 @@ async def handleCommands(message):
         message = message.content
         (command, args) = splitCommandLine(message)
 
-        print(command)
-        print(args)
-
         if bool(os.environ.get("IS_TEST")):
             await channel.send(f"```\nNOTICE!!!!\nTHE BOT IS IN TEST MODE AT THE MOMENT\n```")
 
