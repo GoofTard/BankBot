@@ -4,7 +4,7 @@ from NullaryCommands.PercentagesCommand import PercentagesCommand
 
 
 class AddCategoryCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
         category = commandLine[0]
@@ -28,6 +28,6 @@ class AddCategoryCommand(Command):
 
         msg += "Successfully Added Category!\n" if updated else "Failed To Add Category!'\n"
 
-        msg += PercentagesCommand().execute(userId)
+        msg += PercentagesCommand().execute(userId, [])
 
         return msg

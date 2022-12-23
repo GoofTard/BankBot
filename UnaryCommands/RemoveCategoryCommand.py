@@ -5,7 +5,7 @@ from NullaryCommands.PercentagesCommand import PercentagesCommand
 
 
 class RemoveCategoryCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
         category = commandLine[0]

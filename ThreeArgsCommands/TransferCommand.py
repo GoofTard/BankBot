@@ -4,7 +4,7 @@ from NullaryCommands.FundsCommand import FundsCommand
 
 
 class TransferCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
         fromCat = commandLine[0]
@@ -35,6 +35,6 @@ class TransferCommand(Command):
 
         msg += f"Transferred ₪{funds} From {fromCat} To {toCat}!\n" if updated else "Failed Transferring Funds!\n"
 
-        msg += FundsCommand().execute(userId)
+        msg += FundsCommand().execute(userId, [])
 
         return msg

@@ -4,7 +4,7 @@ from Formatter import format
 
 
 class TransactionsCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         month = dbCon.getLastMonth().strftime("%B")
         user = dbCon.getUser(userId)

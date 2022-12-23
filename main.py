@@ -77,9 +77,9 @@ async def handleCommands(message):
 
         with open('logs.txt', 'a') as f:
             f.write(f'{datetime.now().strftime("%H:%M:%S")} LOG: {id} - {message}\n')
-    except Exception:
+    except Exception as e:
         with open('logs.txt', 'a') as f:
-            f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {id} - {message}\n')
+            f.write(f'{datetime.now().strftime("%H:%M:%S")} ERROR: {id} - {message} - {e}\n')
 
 
 @client.event

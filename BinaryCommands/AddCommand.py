@@ -5,7 +5,7 @@ from NullaryCommands.FundsCommand import FundsCommand
 
 
 class AddCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
         percentages = user["data"]["percentages"]
@@ -37,6 +37,6 @@ class AddCommand(Command):
             (f"Successfully Added ₪{funds} To {commandLine[1]}!\n" if len(commandLine) > 1 else
              f"Successfully Added ₪{funds}!\n")
 
-        msg += FundsCommand().execute(userId)
+        msg += FundsCommand().execute(userId, [])
 
         return msg

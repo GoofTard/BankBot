@@ -20,5 +20,5 @@ class CommandsCommand(Command):
             "transfer [from] [to] [amount]": "Transfers [amount] To [to] From [from]"
         }
 
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         return format(self.commands, ("Command Format", "Description"))

@@ -5,7 +5,7 @@ from NullaryCommands.FundsCommand import FundsCommand
 
 
 class UseCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
         category = commandLine[0]
@@ -35,6 +35,6 @@ class UseCommand(Command):
 
         msg += f"Successfully Used  ₪{funds} From {category}\n" if updated else "Failed To Use Funds!\n"
 
-        msg += FundsCommand().execute(userId)
+        msg += FundsCommand().execute(userId, [])
 
         return msg

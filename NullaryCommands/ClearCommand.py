@@ -4,7 +4,7 @@ from NullaryCommands.FundsCommand import FundsCommand
 
 
 class ClearCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         msg = "Clearing Funds\n"
         user = dbCon.getUser(userId)
@@ -26,6 +26,6 @@ class ClearCommand(Command):
 
         msg += f"Successfully Cleared Funds!\n" if updated else "Failed To Clear Funds!\n"
 
-        msg += FundsCommand().execute(userId)
+        msg += FundsCommand().execute(userId, [])
 
         return msg

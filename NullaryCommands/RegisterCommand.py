@@ -3,7 +3,7 @@ from DatabaseConnection import DatabaseConnection
 
 
 class RegisterCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         try:
             dbCon.getUser(userId)

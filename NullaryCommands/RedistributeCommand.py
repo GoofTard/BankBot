@@ -5,7 +5,7 @@ from NullaryCommands.FundsCommand import FundsCommand
 
 
 class RedistributeCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         msg = "Redistributing Funds!\n"
         user = dbCon.getUser(userId)
@@ -30,6 +30,6 @@ class RedistributeCommand(Command):
 
         msg += f"Successfully Redistributed Funds!\n" if updated else "Failed To Redistribute Funds!\n"
 
-        msg += FundsCommand().execute(userId)
+        msg += FundsCommand().execute(userId, [])
 
         return msg

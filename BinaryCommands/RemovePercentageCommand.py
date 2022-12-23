@@ -4,7 +4,7 @@ from NullaryCommands.PercentagesCommand import PercentagesCommand
 
 
 class RemovePercentageCommand(Command):
-    def execute(self, userId: str, commandLine: list = []) -> str:
+    def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
         category = commandLine[0]
@@ -27,6 +27,6 @@ class RemovePercentageCommand(Command):
 
         msg += f"Successfully Allocated {percentage}% Less To {category}\n" if updated else "Failed To Remove Percentage!\n"
 
-        msg += PercentagesCommand().execute(userId)
+        msg += PercentagesCommand().execute(userId, [])
 
         return msg
