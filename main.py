@@ -27,8 +27,6 @@ intents.message_content = True
 
 try:
     dbCon = DatabaseConnection.instance()
-    dbCon.registerUser("TEST")
-    print("Successfully Connected to DB!")
     if relativedelta.relativedelta(datetime.now(), dbCon.getLastMonth()).months >= 1:
         dbCon.updateUsers(
             {
