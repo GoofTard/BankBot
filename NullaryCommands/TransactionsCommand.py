@@ -40,7 +40,7 @@ class TransactionsCommand(Command):
             if category in categories:
                 categories.update({category: categories[category] + float(funds[1:])})
             else:
-                categories.update({category: funds})
+                categories.update({category: float(funds[1:])})
         msg += format(categories, ("Category", "Total Funds Spent"), ("Total", f"₪{user['usages']['total']}"))
 
         return msg
