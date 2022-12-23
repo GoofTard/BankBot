@@ -89,20 +89,8 @@ class DatabaseConnection(object):
 
     def resetTestUser(self):
         try:
-            self.users.update_one(
-                {"id": "TEST"},
-                {
-                    "data": {
-                        "percentages": {},
-                        "totals": {},
-                        "total": 0
-                    },
-                    "usages": {
-                        "total": 0,
-                        "transactions": []
-                    }
-                }
-            )
+            self.users.delete_one({"id": "TEST"})
+            self.registerUser("TEST")
             return True
         except:
             return False
