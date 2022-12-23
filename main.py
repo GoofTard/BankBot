@@ -20,7 +20,15 @@ try:
     users = db["users"]
     last_month = db["last_month"].find_one()["date"]
     print("Successfully Connected to DB!")
-
+    db["last_month"].update_one(
+        {},
+        {
+            "$set": {
+                "date": datetime(2022, 11, 1)
+            }
+        }
+    )
+    print(db["last_month"].find_one()["date"])
     if relativedelta.relativedelta(datetime.now(), last_month).months >= 1:
         users.update_many(
             {},
@@ -41,7 +49,9 @@ try:
                 }
             }
         )
+        last_month = db["last_month"].find_one()["date"]
 
+    print(users.find_one({}))
     print(last_month)
 
 except Exception as e:
