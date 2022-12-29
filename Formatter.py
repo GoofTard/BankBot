@@ -135,6 +135,8 @@ def formatExtended(columns: int, items: list, upperTitle: list, lowerTitle: list
         space.append("")
     values.append(space)
 
+    print(items)
+
     if len(items) == 0:
         values.append(["", ""])
 
