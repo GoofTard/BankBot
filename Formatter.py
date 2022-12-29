@@ -1,4 +1,4 @@
-spaces = 4
+spaces = 1
 
 def formatRow(sizes, values):
     return f"| {values[0]}{' ' * (sizes[0] - len(str(values[0])))}| {values[1]}{' ' * (sizes[1] - len(str(values[1])))} |\n"
@@ -12,7 +12,7 @@ def formatRowExtended(sizes, values):
     return row
 
 def getTitle(sizes, values):
-    edge = "-" * (sizes[0] + sizes[1] + spaces + 2)
+    edge = "-" * (sizes[0] + sizes[1] + spaces + 5)
 
     return f"{edge}\n{formatRow(sizes, values)}{edge}\n"
 
@@ -21,7 +21,7 @@ def getTitleExtended(sizes, values):
     count = 0
     for size in sizes:
         count += size
-    count += 2 * len(sizes) + space * len(sizes) + 2
+    count += 2 * len(sizes) + space * len(sizes) + 5
     edge = "-" * count
 
     return f"{edge}\n{formatRowExtended(sizes, values)}{edge}\n"
@@ -119,7 +119,7 @@ def format(map: dict, upperTitle: tuple, lowerTitle: tuple = None) -> str:
     if not lowerTitle is None:
         msg += getTitle(sizes, lowerTitle)
     else:
-        msg += ("-" * (sizes[0] + sizes[1] + spaces + 2))
+        msg += ("-" * (sizes[0] + sizes[1] + spaces + 5))
 
     return msg
 

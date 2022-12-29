@@ -2,6 +2,9 @@ import discord
 
 from dotenv import load_dotenv
 import os
+
+from UnaryCommands.LiftLimitCommand import LiftLimitCommand
+from BinaryCommands.LimitCommand import LimitCommand
 from DatabaseConnection import DatabaseConnection
 from datetime import datetime
 from dateutil import relativedelta
@@ -20,7 +23,9 @@ from NullaryCommands.RedistributeCommand import RedistributeCommand
 from NullaryCommands.RegisterCommand import RegisterCommand
 from NullaryCommands.TransactionsCommand import TransactionsCommand
 from ThreeArgsCommands.TransferCommand import TransferCommand
+from UnaryCommands.LockCommand import LockCommand
 from UnaryCommands.RemoveCategoryCommand import RemoveCategoryCommand
+from UnaryCommands.UnlockCommand import UnlockCommand
 
 load_dotenv(".env")
 
@@ -28,8 +33,10 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 try:
+
     dbCon = DatabaseConnection.instance()
     if relativedelta.relativedelta(datetime.now(), dbCon.getLastMonth()).months >= 1:
+        dbCon.updateLastMonth()
         dbCon.updateUsers(
             {
                 "$set": {
@@ -40,7 +47,7 @@ try:
                 }
             }
         )
-        dbCon.updateLastMonth()
+
     print(dbCon.getUser("TEST"))
 
 except Exception as e:
@@ -62,7 +69,11 @@ commands = {
     "redistribute": RedistributeCommand(),
     "register": RegisterCommand(),
     "transfer": TransferCommand(),
-    "transactions": TransactionsCommand()
+    "transactions": TransactionsCommand(),
+    "limit": LimitCommand(),
+    "lift-limit": LiftLimitCommand(),
+    "lock": LockCommand(),
+    "unlock": UnlockCommand()
 }
 
 def splitCommandLine(message: str) -> tuple:

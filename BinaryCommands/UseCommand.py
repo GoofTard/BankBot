@@ -11,6 +11,7 @@ class UseCommand(Command):
         category = commandLine[0]
         funds = float(commandLine[1])
         totals = user["data"]["totals"]
+        locks: set = user["locks"]
         msg = f"Using ₪{funds} From {category}\n"
 
         argsAmount = len(commandLine)
@@ -25,6 +26,9 @@ class UseCommand(Command):
         if not category in totals:
             msg += "The Category Doesn't Exist!\n"
             return msg
+
+        if category in locks:
+            return "The Category Is Locked!"
 
         totals.update({category: totals[category] - funds})
 
