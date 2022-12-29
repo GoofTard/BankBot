@@ -21,7 +21,7 @@ def getTitleExtended(sizes, values):
     count = 0
     for size in sizes:
         count += size
-    count += 2 * len(sizes) + space * len(sizes) + 5
+    count += 2 * len(sizes) + space * len(sizes) + 2
     edge = "-" * count
 
     return f"{edge}\n{formatRowExtended(sizes, values)}{edge}\n"
@@ -134,6 +134,11 @@ def formatExtended(columns: int, items: list, upperTitle: list, lowerTitle: list
     for col in range(columns):
         space.append("")
     values.append(space)
+
+    print(items)
+
+    if len(items) == 0:
+        items.append(["", ""])
 
     sizes = getSizesExtended(values, columns)
     msg = getTitleExtended(sizes, upperTitle)
