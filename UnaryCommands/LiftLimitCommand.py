@@ -15,7 +15,7 @@ class LiftLimitCommand(Command):
             msg += "Category Already Unlimited!\n"
             return msg
 
-        updated = dbCon.addLimit(userId, category)
+        updated = dbCon.remLimit(userId, category)
 
         msg += f"Successfully Lifted Limit On Category!\n" if updated else "Failed To Lift Limit On Category!\n"
 
