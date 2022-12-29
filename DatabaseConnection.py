@@ -72,17 +72,20 @@ class DatabaseConnection(object):
     def registerUser(self, userId: str) -> bool:
         try:
             self.users.insert_one({
-                    "id": userId,
-                    "data": {
-                        "percentages": {},
-                        "totals": {},
-                        "total": 0
-                    },
-                    "usages": {
-                        "total": 0,
-                        "transactions": []
-                    }
-                })
+                "id": userId,
+                "data": {
+                    "percentages": {},
+                    "totals": {},
+                    "total": 0
+                },
+                "usages": {
+                    "total": 0,
+                    "transactions": []
+                },
+                "limits": {},
+                "locks": []
+            })
+
             return True
         except:
             return False

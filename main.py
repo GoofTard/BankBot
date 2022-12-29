@@ -28,19 +28,28 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 try:
+
     dbCon = DatabaseConnection.instance()
     if relativedelta.relativedelta(datetime.now(), dbCon.getLastMonth()).months >= 1:
         dbCon.updateUsers(
             {
                 "$set": {
-                    "usages": {
-                        "total": 0,
-                        "transactions": []
-                    }
+                    "limits": {},
+                    "locks": []
                 }
             }
         )
         dbCon.updateLastMonth()
+    dbCon.updateUsers(
+        {
+            "$set": {
+                "usages": {
+                    "total": 0,
+                    "transactions": []
+                }
+            }
+        }
+    )
     print(dbCon.getUser("TEST"))
 
 except Exception as e:
