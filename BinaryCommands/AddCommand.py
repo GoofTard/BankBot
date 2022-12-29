@@ -40,25 +40,19 @@ class AddCommand(Command):
                     totals.update({key: totals[key] + categoryFunds})
 
             while overflow > 0.1:
-                print(overflow)
                 percent = 100.0 / (len(totals.keys()) - limitedCatAmount) / 100.0
-                print(percent)
-                print(overflow * percent)
                 tempOverflow = 0
                 categoryFunds = overflow * percent
                 for key in percentages.keys():
                     print(key)
                     if key in limits.keys() and totals[key] == limits[key]:
-                        print("-over")
                         pass
                     elif key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
-                        print("-maxing")
                         diff = limits[key] - totals[key]
                         tempOverflow += categoryFunds - diff
                         limitedCatAmount += 1
                         totals.update({key: limits[key]})
                     else:
-                        print("-ok")
                         totals.update({key: totals[key] + categoryFunds})
 
                 overflow = tempOverflow
