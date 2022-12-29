@@ -43,14 +43,6 @@ try:
             }
         )
 
-    dbCon.updateUsers(
-        {
-            "$set": {
-                "limits": {},
-                "locks": []
-            }
-        }
-    )
     print(dbCon.getUser("TEST"))
 
 except Exception as e:

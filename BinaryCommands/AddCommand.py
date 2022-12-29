@@ -11,15 +11,37 @@ class AddCommand(Command):
         percentages = user["data"]["percentages"]
         funds = float(commandLine[0])
         totals = user["data"]["totals"]
+        limits = user["limits"]
 
         if len(commandLine) > 1:
             msg = f"Adding ₪{funds} To {commandLine[1]}\n"
             category = commandLine[1]
+
+            if category in limits.keys() and totals[category] + funds > limits[category]:
+                return f"Cannot Add ₪{funds} To {category}! It Will Go Over Its Limit Of ₪{limits[category]}!"
+
             totals.update({category: totals[category] + funds})
         else:
             msg = f"Adding ₪{funds}\n"
+            overflow = 0
+            limitedPercentage = 0
+            limitedCatAmount = 0
+
             for key in percentages.keys():
-                totals.update({key: totals[key] + funds * (percentages[key] / 100.0)})
+                categoryFunds = funds * (percentages[key] / 100.0)
+                if key in limits.keys() and totals[key] >= limits[key]:
+                    overflow = categoryFunds
+                    limitedPercentage += percentages[key] / 100.0
+                    limitedCatAmount += 1
+                else:
+                    totals.update({key: totals[key] + categoryFunds})
+
+            if overflow > 0:
+                percent = limitedPercentage / limitedCatAmount
+                for key in percentages.keys():
+                    if not (key in limits.keys() and totals[key] >= limits[key]):
+                        categoryFunds = funds * ((percentages[key] / 100.0) + percent)
+                        totals.update({key: totals[key] + categoryFunds})
 
             if len(percentages.keys()) == 0:
                 msg += "Cannot Add Funds! There Are No Categories!\n"
