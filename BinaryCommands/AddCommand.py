@@ -47,14 +47,18 @@ class AddCommand(Command):
                 tempOverflow = 0
                 categoryFunds = overflow * percent
                 for key in percentages.keys():
+                    print(key)
                     if key in limits.keys() and totals[key] + categoryFunds == limits[key]:
+                        print("-over")
                         pass
                     if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
+                        print("-maxing")
                         diff = limits[key] - totals[key]
                         tempOverflow += categoryFunds - diff
                         limitedCatAmount += 1
                         totals.update({key: limits[key]})
                     else:
+                        print("-ok")
                         totals.update({key: totals[key] + categoryFunds})
 
                 overflow = tempOverflow
