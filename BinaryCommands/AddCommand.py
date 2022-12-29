@@ -51,7 +51,7 @@ class AddCommand(Command):
                         pass
                     if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                         diff = limits[key] - totals[key]
-                        tempOverflow = categoryFunds - diff
+                        tempOverflow += categoryFunds - diff
                         limitedCatAmount += 1
                         totals.update({key: limits[key]})
                     else:
