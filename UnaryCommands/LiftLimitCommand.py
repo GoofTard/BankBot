@@ -11,7 +11,7 @@ class LiftLimitCommand(Command):
         msg = f"Lifting Limit On Category: {category}\n"
         limits = user["limits"]
 
-        if category in limits:
+        if not category in limits:
             msg += "Category Already Unlimited!\n"
             return msg
 

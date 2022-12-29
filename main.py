@@ -3,7 +3,7 @@ import discord
 from dotenv import load_dotenv
 import os
 
-from BinaryCommands.LiftLimitCommand import LiftLimitCommand
+from UnaryCommands.LiftLimitCommand import LiftLimitCommand
 from BinaryCommands.LimitCommand import LimitCommand
 from DatabaseConnection import DatabaseConnection
 from datetime import datetime
