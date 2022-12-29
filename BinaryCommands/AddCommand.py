@@ -29,11 +29,11 @@ class AddCommand(Command):
             for key in percentages.keys():
                 categoryFunds = funds * (percentages[key] / 100.0)
                 if key in limits.keys() and totals[key] >= limits[key]:
-                    overflow = categoryFunds
+                    overflow += categoryFunds
                     limitedCatAmount += 1
                 elif key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                     diff = limits[key] - totals[key]
-                    overflow = categoryFunds - diff
+                    overflow += categoryFunds - diff
                     limitedCatAmount += 1
                     totals.update({key: limits[key]})
                 else:
