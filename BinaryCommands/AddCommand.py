@@ -24,19 +24,16 @@ class AddCommand(Command):
         else:
             msg = f"Adding ₪{funds}\n"
             overflow = 0
-            limitedPercentage = 0
             limitedCatAmount = 0
 
             for key in percentages.keys():
                 categoryFunds = funds * (percentages[key] / 100.0)
                 if key in limits.keys() and totals[key] >= limits[key]:
                     overflow = categoryFunds
-                    limitedPercentage += percentages[key] / 100.0
                     limitedCatAmount += 1
                 elif key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                     diff = limits[key] - totals[key]
                     overflow = categoryFunds - diff
-                    limitedPercentage += percentages[key] / 100.0
                     limitedCatAmount += 1
                     totals.update({key: limits[key]})
                 else:
@@ -44,18 +41,15 @@ class AddCommand(Command):
 
             while overflow > 0.1:
                 print(overflow)
-                percent = limitedPercentage / limitedCatAmount
-                limitedPercentage = 0
-                limitedCatAmount = 0
+                percent = 100.0 / (len(totals.keys()) - limitedCatAmount) / 100.0
                 tempOverflow = 0
+                categoryFunds = overflow * percent
                 for key in percentages.keys():
-                    categoryFunds = overflow * percent
                     if key in limits.keys() and totals[key] + categoryFunds == limits[key]:
                         pass
                     if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                         diff = limits[key] - totals[key]
                         tempOverflow = categoryFunds - diff
-                        limitedPercentage += percentages[key] / 100.0
                         limitedCatAmount += 1
                         totals.update({key: limits[key]})
                     else:
