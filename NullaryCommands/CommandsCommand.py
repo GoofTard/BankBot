@@ -7,6 +7,8 @@ class CommandsCommand(Command):
         self.commands = {
             "clear": "Clears User's Funds",
             "funds": "Shows Each Category's Allocated Funds",
+            "limits": "Prints All Limits",
+            "locks": "Prints Locks",
             "percentages": "Shows Each Category's Percentages",
             "redistribute": "Redistributes The Funds",
             "register": "Registers The User",
