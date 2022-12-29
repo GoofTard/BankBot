@@ -3,6 +3,8 @@ import discord
 from dotenv import load_dotenv
 import os
 
+from NullaryCommands.LimitsCommand import LimitsCommand
+from NullaryCommands.LocksCommand import LocksCommand
 from UnaryCommands.LiftLimitCommand import LiftLimitCommand
 from BinaryCommands.LimitCommand import LimitCommand
 from DatabaseConnection import DatabaseConnection
@@ -73,7 +75,9 @@ commands = {
     "limit": LimitCommand(),
     "lift-limit": LiftLimitCommand(),
     "lock": LockCommand(),
-    "unlock": UnlockCommand()
+    "unlock": UnlockCommand(),
+    "limits": LimitsCommand(),
+    "locks": LocksCommand()
 }
 
 def splitCommandLine(message: str) -> tuple:
