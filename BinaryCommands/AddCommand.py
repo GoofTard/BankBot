@@ -58,7 +58,7 @@ class AddCommand(Command):
                         totals.update({key: totals[key] + categoryFunds})
 
                 overflow = tempOverflow
-                print()
+                print("'\n")
 
             if len(percentages.keys()) == 0:
                 msg += "Cannot Add Funds! There Are No Categories!\n"
