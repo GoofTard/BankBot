@@ -137,7 +137,8 @@ class DatabaseConnection(object):
                 }
             )
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     def remLimit(self, userId: str, category: str):
