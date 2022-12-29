@@ -16,4 +16,4 @@ class LocksCommand(Command):
         user = dbCon.getUser(userId)
         locks = user["locks"]
 
-        return formatExtended(1, self.toListList(locks), [("Locks",)])
+        return formatExtended(1, self.toListList(locks), ["Locks"])
