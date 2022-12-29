@@ -47,15 +47,16 @@ class AddCommand(Command):
                 limitedPercentage = 0
                 limitedCatAmount = 0
                 for key in percentages.keys():
-                    categoryFunds = overflow * ((percentages[key] / 100.0) + percent)
-                    if not (key in limits.keys() and totals[key] >= limits[key]):
-                        totals.update({key: totals[key] + categoryFunds})
-                    elif key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
+                    categoryFunds = overflow * percent
+                    if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                         diff = limits[key] - totals[key]
                         overflow = categoryFunds - diff
                         limitedPercentage += percentages[key] / 100.0
                         limitedCatAmount += 1
                         totals.update({key: limits[key]})
+                    elif not (key in limits.keys() and totals[key] >= limits[key]):
+                        totals.update({key: totals[key] + categoryFunds})
+
                 overflow = 0
 
             if len(percentages.keys()) == 0:
