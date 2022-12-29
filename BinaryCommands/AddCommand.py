@@ -51,7 +51,7 @@ class AddCommand(Command):
                     if key in limits.keys() and totals[key] == limits[key]:
                         print("-over")
                         pass
-                    if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
+                    elif key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                         print("-maxing")
                         diff = limits[key] - totals[key]
                         tempOverflow += categoryFunds - diff
