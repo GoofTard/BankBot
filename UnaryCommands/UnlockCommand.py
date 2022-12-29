@@ -12,7 +12,7 @@ class UnlockCommand(Command):
         msg = f"Unlocking Category: {category}\n"
         locks = user["locks"]
 
-        if category in locks:
+        if not category in locks:
             msg += "Category Already Unlocked!\n"
             return msg
 
