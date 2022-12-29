@@ -1,4 +1,4 @@
-spaces = 2
+spaces = 1
 
 def formatRow(sizes, values):
     return f"| {values[0]}{' ' * (sizes[0] - len(str(values[0])))}| {values[1]}{' ' * (sizes[1] - len(str(values[1])))} |\n"
