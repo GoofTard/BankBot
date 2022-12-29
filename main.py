@@ -31,22 +31,23 @@ try:
 
     dbCon = DatabaseConnection.instance()
     if relativedelta.relativedelta(datetime.now(), dbCon.getLastMonth()).months >= 1:
+        dbCon.updateLastMonth()
         dbCon.updateUsers(
             {
                 "$set": {
-                    "limits": {},
-                    "locks": []
+                    "usages": {
+                        "total": 0,
+                        "transactions": []
+                    }
                 }
             }
         )
-        dbCon.updateLastMonth()
+
     dbCon.updateUsers(
         {
             "$set": {
-                "usages": {
-                    "total": 0,
-                    "transactions": []
-                }
+                "limits": {},
+                "locks": []
             }
         }
     )
