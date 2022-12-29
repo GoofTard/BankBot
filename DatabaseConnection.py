@@ -131,14 +131,13 @@ class DatabaseConnection(object):
             self.users.update_one(
                 {"id": userId},
                 {
-                    "set": {
+                    "$set": {
                         f"limits.{category}": limit
                     }
                 }
             )
             return True
-        except Exception as e:
-            print(e)
+        except:
             return False
 
     def remLimit(self, userId: str, category: str):
@@ -146,7 +145,7 @@ class DatabaseConnection(object):
             self.users.update_one(
                 {"id": userId},
                 {
-                    "unset": {
+                    "$unset": {
                         f"limits.{category}": ""
                     }
                 }
