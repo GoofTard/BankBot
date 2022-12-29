@@ -48,7 +48,7 @@ class AddCommand(Command):
                 categoryFunds = overflow * percent
                 for key in percentages.keys():
                     print(key)
-                    if key in limits.keys() and totals[key] + categoryFunds == limits[key]:
+                    if key in limits.keys() and totals[key] == limits[key]:
                         print("-over")
                         pass
                     if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
