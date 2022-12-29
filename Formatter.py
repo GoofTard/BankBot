@@ -135,6 +135,9 @@ def formatExtended(columns: int, items: list, upperTitle: list, lowerTitle: list
         space.append("")
     values.append(space)
 
+    if len(items) == 0:
+        values.append(["", ""])
+
     sizes = getSizesExtended(values, columns)
     msg = getTitleExtended(sizes, upperTitle)
     for val in items:
