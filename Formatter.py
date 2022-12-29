@@ -147,7 +147,7 @@ def formatExtended(columns: int, items: list, upperTitle: list, lowerTitle: list
         count = 0
         for size in sizes:
             count += size
-        count += 2 * len(sizes) + space * len(sizes) + 2
+        count += 2 * len(sizes) + space * len(sizes) - 1
         msg += f"{'-' * count}\n"
 
     return msg
