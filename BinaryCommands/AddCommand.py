@@ -46,18 +46,19 @@ class AddCommand(Command):
                 percent = limitedPercentage / limitedCatAmount
                 limitedPercentage = 0
                 limitedCatAmount = 0
+                tempOverflow = 0
                 for key in percentages.keys():
                     categoryFunds = overflow * percent
                     if key in limits.keys() and totals[key] + categoryFunds >= limits[key]:
                         diff = limits[key] - totals[key]
-                        overflow = categoryFunds - diff
+                        tempOverflow = categoryFunds - diff
                         limitedPercentage += percentages[key] / 100.0
                         limitedCatAmount += 1
                         totals.update({key: limits[key]})
                     elif not (key in limits.keys() and totals[key] >= limits[key]):
                         totals.update({key: totals[key] + categoryFunds})
 
-                overflow = 0
+                overflow = tempOverflow
 
             if len(percentages.keys()) == 0:
                 msg += "Cannot Add Funds! There Are No Categories!\n"
