@@ -119,7 +119,7 @@ def format(map: dict, upperTitle: tuple, lowerTitle: tuple = None) -> str:
     if not lowerTitle is None:
         msg += getTitle(sizes, lowerTitle)
     else:
-        msg += ("-" * (sizes[0] + sizes[1] + spaces + 2))
+        msg += ("-" * (sizes[0] + sizes[1] + spaces + 5))
 
     return msg
 
@@ -147,7 +147,7 @@ def formatExtended(columns: int, items: list, upperTitle: list, lowerTitle: list
         count = 0
         for size in sizes:
             count += size
-        count += 2 * len(sizes) + space * len(sizes) + 5
+        count += 2 * len(sizes) + space * len(sizes) + 2
         msg += f"{'-' * count}\n"
 
     return msg
