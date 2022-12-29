@@ -42,6 +42,8 @@ class AddCommand(Command):
             while overflow > 0.1:
                 print(overflow)
                 percent = 100.0 / (len(totals.keys()) - limitedCatAmount) / 100.0
+                print(percent)
+                print(overflow * percent)
                 tempOverflow = 0
                 categoryFunds = overflow * percent
                 for key in percentages.keys():
@@ -56,6 +58,7 @@ class AddCommand(Command):
                         totals.update({key: totals[key] + categoryFunds})
 
                 overflow = tempOverflow
+                print()
 
             if len(percentages.keys()) == 0:
                 msg += "Cannot Add Funds! There Are No Categories!\n"
