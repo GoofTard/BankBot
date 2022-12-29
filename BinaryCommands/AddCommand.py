@@ -43,6 +43,7 @@ class AddCommand(Command):
                     totals.update({key: totals[key] + categoryFunds})
 
             while overflow > 0:
+                print(overflow)
                 percent = limitedPercentage / limitedCatAmount
                 limitedPercentage = 0
                 limitedCatAmount = 0
