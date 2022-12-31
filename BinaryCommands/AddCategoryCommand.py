@@ -31,8 +31,9 @@ class AddCategoryCommand(Command):
 
         updated = dbCon.updateUser(user)
 
+        print(dbCon.getUser("TEST"))
+
         msg += "Successfully Added Category!\n" if updated else "Failed To Add Category!'\n"
 
         msg += PercentagesCommand().execute(userId, [])
-
         return msg
