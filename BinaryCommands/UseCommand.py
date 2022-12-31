@@ -10,7 +10,7 @@ class UseCommand(Command):
         user = dbCon.getUser(userId)
         category = commandLine[0]
         funds = float(commandLine[1])
-        totals = user["data"]["totals"]
+        totals = user["totals"]
         locks: set = user["locks"]
         msg = f"Using ₪{funds} From {category}\n"
 
@@ -40,8 +40,8 @@ class UseCommand(Command):
         updated = dbCon.updateUser(
             {
                 "$set": {
-                    "data.totals": totals,
-                    "data.total": user["data"]["total"] - funds,
+                    "totals": totals,
+                    "total": user["data"]["total"] - funds,
                     "usages.total": user["usages"]["total"] + funds
                 },
                 "$push": {

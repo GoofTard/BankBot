@@ -10,7 +10,7 @@ class AddPercentageCommand(Command):
         user = dbCon.getUser(userId)
         category = commandLine[0]
         percentage = float(commandLine[1])
-        percentages = user["data"]["percentages"]
+        percentages = user["percentages"]
         msg = f"Allocating {percentage}% More To {category}\n"
 
         if not category in percentages.keys():
@@ -20,7 +20,7 @@ class AddPercentageCommand(Command):
         updated = dbCon.updateUser(
             {
                 "$set": {
-                    f"data.percentages.{category}": percentages[category] + percentage
+                    f"percentages.{category}": percentages[category] + percentage
                 }
             },
             userId

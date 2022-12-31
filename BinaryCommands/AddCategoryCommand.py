@@ -9,7 +9,7 @@ class AddCategoryCommand(Command):
         user = dbCon.getUser(userId)
         category = commandLine[0]
         percentage = float(commandLine[1])
-        percentages = user["data"]["percentages"]
+        percentages = user["percentages"]
         msg = f"Adding Category: {category} And Allocating {percentage}%\n"
 
         if category in percentages.keys():
@@ -19,8 +19,8 @@ class AddCategoryCommand(Command):
         updated = dbCon.updateUser(
             {
                 "$set": {
-                    f"data.percentages.{category}": percentage,
-                    f"data.totals.{category}": 0
+                    f"percentages.{category}": percentage,
+                    f"totals.{category}": 0
                 }
             },
             userId

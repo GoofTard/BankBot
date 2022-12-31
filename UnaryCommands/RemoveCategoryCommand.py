@@ -11,7 +11,7 @@ class RemoveCategoryCommand(Command):
         category = commandLine[0]
 
         msg = f"Removing Category: {category}\n"
-        percentages = user["data"]["percentages"]
+        percentages = user["percentages"]
 
         if not category in percentages.keys():
             msg += "Category Doesn't Exist!\n"
@@ -20,8 +20,8 @@ class RemoveCategoryCommand(Command):
         updated = dbCon.updateUser(
             {
                 "$unset": {
-                    f"data.percentages.{category}": 1,
-                    f"data.totals.{category}": 1
+                    f"percentages.{category}": 1,
+                    f"totals.{category}": 1
                 }
             },
             userId

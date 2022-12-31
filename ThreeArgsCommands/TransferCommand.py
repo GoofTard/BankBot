@@ -10,7 +10,7 @@ class TransferCommand(Command):
         fromCat = commandLine[0]
         toCat = commandLine[1]
         funds = float(commandLine[2])
-        totals = user["data"]["totals"]
+        totals = user["totals"]
         msg = f"Transferring ₪{funds} From {fromCat} To {toCat}...\n"
 
         if not fromCat in totals:
@@ -28,7 +28,7 @@ class TransferCommand(Command):
 
         updated = dbCon.updateUser(
             {
-                "$set": {"data.totals": totals}
+                "$set": {"totals": totals}
             },
             userId
         )

@@ -7,7 +7,7 @@ class PercentagesCommand(Command):
     def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
-        percentages = user["data"]["percentages"]
+        percentages = user["percentages"]
         map = addPostfix(percentages, "%")
 
         msg = getWarning(percentages)

@@ -9,8 +9,8 @@ class RedistributeCommand(Command):
         dbCon = DatabaseConnection.instance()
         msg = "Redistributing Funds!\n"
         user = dbCon.getUser(userId)
-        percentages = user["data"]["percentages"]
-        total = user["data"]["total"]
+        percentages = user["percentages"]
+        total = user["total"]
 
         totals = dict()
 
@@ -23,7 +23,7 @@ class RedistributeCommand(Command):
 
         updated = dbCon.updateUser(
             {
-                "$set": {"data.totals": totals}
+                "$set": {"totals": totals}
             },
             {"id": userId}
         )

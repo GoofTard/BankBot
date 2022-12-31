@@ -8,7 +8,7 @@ class ClearCommand(Command):
         dbCon = DatabaseConnection.instance()
         msg = "Clearing Funds\n"
         user = dbCon.getUser(userId)
-        totals = user["data"]["totals"]
+        totals = user["totals"]
 
         for key in totals.keys():
             totals.update({f"{key}": 0})
@@ -19,7 +19,7 @@ class ClearCommand(Command):
 
         updated = dbCon.updateUser(
             {
-                "$set": {"data.totals": totals, "data.total": 0}
+                "$set": {"totals": totals, "total": 0}
             },
             userId
         )

@@ -8,9 +8,9 @@ class AddCommand(Command):
     def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
         user = dbCon.getUser(userId)
-        percentages = user["data"]["percentages"]
+        percentages = user["percentages"]
         funds = float(commandLine[0])
-        totals = user["data"]["totals"]
+        totals = user["totals"]
         limits = user["limits"]
 
         if len(commandLine) > 1:
@@ -62,8 +62,8 @@ class AddCommand(Command):
 
         updated = dbCon.updateUser(
             {
-                "$set": {"data.totals": totals},
-                "$inc": {"data.total": funds}
+                "$set": {"totals": totals},
+                "$inc": {"total": funds}
             },
             userId
         )

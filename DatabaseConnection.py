@@ -73,11 +73,9 @@ class DatabaseConnection(object):
         try:
             self.users.insert_one({
                 "id": userId,
-                "data": {
-                    "percentages": {},
-                    "totals": {},
-                    "total": 0
-                },
+                "percentages": {},
+                "totals": {},
+                "total": 0,
                 "usages": {
                     "total": 0,
                     "transactions": []

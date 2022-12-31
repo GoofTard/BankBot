@@ -9,7 +9,7 @@ class RemovePercentageCommand(Command):
         user = dbCon.getUser(userId)
         category = commandLine[0]
         percentage = float(commandLine[1])
-        percentages = user["data"]["percentages"]
+        percentages = user["percentages"]
         msg = f"Allocating {percentage}% Less To {category}\n"
 
         if not category in percentages.keys():
@@ -19,7 +19,7 @@ class RemovePercentageCommand(Command):
         updated = dbCon.updateUser(
             {
                 "$set": {
-                    f"data.percentages.{category}": percentages[category] - percentage
+                    f"percentages.{category}": percentages[category] - percentage
                 }
             },
             userId
