@@ -49,16 +49,6 @@ class DatabaseConnection(object):
             }
         )
 
-    def updateUser(self, query: dict, id: str) -> bool:
-        try:
-            self.users.update_one(
-                {"id": id},
-                query
-            )
-            return True
-        except:
-            return False
-
     def updateUsers(self, query: dict) -> bool:
         try:
             self.users.update_many(
@@ -73,15 +63,12 @@ class DatabaseConnection(object):
         try:
             self.users.insert_one({
                 "id": userId,
-                "percentages": {},
-                "totals": {},
+                "categories": [],
                 "total": 0,
                 "usages": {
                     "total": 0,
                     "transactions": []
                 },
-                "limits": {},
-                "locks": []
             })
 
             return True
@@ -96,56 +83,16 @@ class DatabaseConnection(object):
         except:
             return False
 
-    def addLock(self, userId: str, category: str):
+    def updateUser(self, user: dict) -> bool:
         try:
             self.users.update_one(
-                {"id": userId},
+                {"id": user["id"]},
                 {
-                    "$addToSet": {
-                        "locks": category
-                    }
-                }
-            )
-            return True
-        except:
-            return False
-
-    def remLock(self, userId: str, category: str):
-        try:
-            self.users.update_one(
-                {"id": userId},
-                {
-                    "$pull": {
-                        "locks": category
-                    }
-                }
-            )
-            return True
-        except:
-            return False
-
-    def addLimit(self, userId: str, category: str, limit: float):
-        try:
-            self.users.update_one(
-                {"id": userId},
-                {
-                    "$set": {
-                        f"limits.{category}": limit
-                    }
-                }
-            )
-            return True
-        except:
-            return False
-
-    def remLimit(self, userId: str, category: str):
-        try:
-            self.users.update_one(
-                {"id": userId},
-                {
-                    "$unset": {
-                        f"limits.{category}": ""
-                    }
+                   "$set": {
+                       "categories": user["categories"],
+                       "total": user["total"],
+                       "usages": user["usages"]
+                   }
                 }
             )
             return True

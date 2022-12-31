@@ -6,25 +6,30 @@ from NullaryCommands.PercentagesCommand import PercentagesCommand
 class AddCategoryCommand(Command):
     def execute(self, userId: str, commandLine: list) -> str:
         dbCon = DatabaseConnection.instance()
-        user = dbCon.getUser(userId)
+        user = dict(dbCon.getUser(userId))
+
         category = commandLine[0]
         percentage = float(commandLine[1])
-        percentages = user["percentages"]
+        categories = user["categories"]
+        categoriesNames = []
+        for cat in categories:
+            categoriesNames.append(cat.category)
+
         msg = f"Adding Category: {category} And Allocating {percentage}%\n"
 
-        if category in percentages.keys():
+        if category in categoriesNames:
             msg += "Category Already Exists!\n"
             return msg
 
-        updated = dbCon.updateUser(
-            {
-                "$set": {
-                    f"percentages.{category}": percentage,
-                    f"totals.{category}": 0
-                }
-            },
-            userId
-        )
+        categories.append({
+            "category": category,
+            "total": 0,
+            "percentage": percentage,
+            "locked": False,
+            "limit": -1
+        })
+
+        updated = dbCon.updateUser(user)
 
         msg += "Successfully Added Category!\n" if updated else "Failed To Add Category!'\n"
 
